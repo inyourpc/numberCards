@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+         
+           
+
+            <title>Number Cards</title>
+            <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+            <script src="http://code.createjs.com/preloadjs-0.4.0.min.js"></script>
+            <!-- EaselJS library for work with canvas-->
+
+            <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+
+            <script type="text/javascript" src="ndgmr.Collision.js"></script>
+   
+
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+           
+            <body bgcolor="#159acf">
+
+
+            </body>
+            
+            <style>
+
+           
+    canvas {
+      
+           
+          
+        background-color: white;
+        position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+    }
+
+
+            </style>
+
+    <script>
+
+
+      var stage;
+      var loading;
+      var filesloaded;
+      var border;
+      ///coding variables
+      var collision;
+      var collision1;
+      var mainContainer;
+      var container = new Array();
+      var cardNumber =new Array();
+      
+      var j=1;
+      var color=["blue","green","grey","orange","pink","red","yellow"];
+
+      var flipped=false;
+      ///bitmap variables
+      var stack;
+      var normal = new Array();
+      var down;
+      var flip_normal = new Array();
+      var flip_down;
+      var button_normal = new Array();
+      var button_down;
+      var recycleBin_norm;
+      var recycleBin_over;
+      //buttons//
+      var showAll_button;
+      var hideAll_button;
+      var clearAll_button;
+      var button,button1,button2;
+      var index = new Array();
+      var inContainer;
+
+      /////
+
+
+     var queue = new createjs.LoadQueue();
+
+            queue.addEventListener("fileload", handleFileLoad);
+            queue.addEventListener("complete", handleComplete);
+
+            
+            
+
+            queue.loadFile({id:"loading",src:"images/loading.PNG"});
+            queue.loadFile({id:"recycleBin_norm",src:"images/01_wastebin_norm.png"});
+            queue.loadFile({id:"recycleBin_over",src:"images/01_wastebin_over.png"});
+
+
+            for(var i=0;i<=6;i++){
+            queue.loadFile({id:"stack"+i,src:"images/01_card_"+color[i]+"_stack.png"});
+            queue.loadFile({id:"normal"+i,src:"images/01_card_"+color[i]+"_norm.png"});
+            queue.loadFile({id:"down"+i,src:"images/01_card_"+color[i]+"_down.png"});
+            queue.loadFile({id:"flip_normal"+i,src:"images/01_card_"+color[i]+"_flip_norm.png"}); 
+            queue.loadFile({id:"flip_down"+i,src:"images/01_card_"+color[i]+"_flip_down.png"}); 
+            queue.loadFile({id:"button_normal"+i,src:"images/01_card_"+color[i]+"_button_norm.png"}); 
+            queue.loadFile({id:"button_down"+i,src:"images/01_card_"+color[i]+"_button_down.png"}); 
+            }
+
+
+            queue.loadFile({id:"button",src:"images/button.PNG"});
+            queue.loadFile({id:"button1",src:"images/button1.png"});
+            queue.loadFile({id:"button2",src:"images/button2.png"});
+
+            
+
+            /////canvas setting////
+                  var canvas = document.createElement( navigator.isCocoonJS ? "screencanvas" : "canvas");
+                  W=985;
+                  H=624;
+                  canvas.width = W;
+                  canvas.height = H;
+                  var context = canvas.getContext("2d");
+                  document.body.appendChild(canvas);
+
+                  stage = new createjs.Stage(canvas);
+                  stage.enableMouseOver(); 
+
+
+                  createjs.Touch.enable(stage);
+                  //TweenLite.ticker.addEventListener("tick", stage.update, stage);
+                  createjs.Ticker.setInterval(5);
+                  createjs.Ticker.addEventListener("tick", tick);
+                  stage.autoClear = true;
+                  stage.snapPixelsEnabled=true;
+                  
+                   
+
+                  stage.addEventListener("click", stagePressHandler);
+            ////////////////////////////handle file load function ////     
+
+
+            function handleFileLoad(){
+            filesloaded++;
+               
+            if(filesloaded==1){
+                loading= new createjs.Bitmap(queue.getResult("loading"));
+                stage.addChild(loading);   
+                }   
+            }
+
+           //////////////////handle complete function ////     
+            function handleComplete() {
+            //////console.log('handle complete');
+            stage.removeChild(loading);
+            //load screen images to bitmaps and store the bitmaps in vairables
+            stack = new createjs.Bitmap(queue.getResult("stack"+j));
+            
+            for(var i=1;i<=8;i++){
+            normal[i] = new createjs.Bitmap(queue.getResult("normal"+j));
+            normal[i].name="normal"+i;
+            flip_normal[i] = new createjs.Bitmap(queue.getResult("flip_normal"+j));
+            button_normal[i] = new createjs.Bitmap(queue.getResult("button_normal"+j));
+
+            ////text////
+             cardNumber[i] = new createjs.Text("","40px Verdana bold","black");
+                  ///ardNumber[i].lineWidth = 500;
+                  cardNumber[i].textAlign = "center";
+                  cardNumber[i].x=44;
+                  cardNumber[i].y=35;
+                  cardNumber[i].text=i;
+                  cardNumber[i].name="number"+i;
+                  /////
+                  button_normal[i].x=56;
+                  button_normal[i].y=83;
+                  button_normal[i].name=i;
+
+                  
+            ////container////
+            container[i] = new createjs.Container();
+            container[i].name=i;
+
+            container[i].addChild(flip_normal[i],normal[i],cardNumber[i],button_normal[i]);
+
+            }
+
+            down = new createjs.Bitmap(queue.getResult("down"+j));
+            button = new createjs.Bitmap(queue.getResult("button"));
+            button1 = new createjs.Bitmap(queue.getResult("button1"));
+            button2 = new createjs.Bitmap(queue.getResult("button2"));
+
+            flip_down = new createjs.Bitmap(queue.getResult("flip_down"+j));
+            
+            button_down = new createjs.Bitmap(queue.getResult("button_down"+j));
+            recycleBin_norm = new createjs.Bitmap(queue.getResult("recycleBin_norm"));
+            recycleBin_over = new createjs.Bitmap(queue.getResult("recycleBin_over"));
+
+            ///// rectangle with 1 px blue border////
+
+
+            border = new createjs.Shape();
+            border.graphics.beginStroke("grey");
+            border.graphics.setStrokeStyle(2);
+            border.snapToPixel = true;
+            //border.graphics.beginFill("blue");
+            border.graphics.drawRect(20, 40, 945, 400);
+            border.setBounds(20,40,945,400);
+            border.x = stage.width / 2 - 200;
+            border.y = stage.height / 2 - 150;
+            mainContainer = new createjs.Container();
+            mainContainer.addChild(border);
+           
+
+          
+            for(var i=1;i<=8;i++){
+
+            cardNumber[i].addEventListener("dblclick",function(evt){
+            evt.currentTarget.text="hello world";
+
+                
+          
+        
+
+            });
+
+            container[i].addEventListener("pressmove",function(evt){
+                evt.currentTarget.x = (evt.stageX-40);
+                evt.currentTarget.y = (evt.stageY-35);
+                if(evt.currentTarget.name==8){
+                    stage.removeChild(stack);
+                }
+
+                });
+            button_normal[i].addEventListener("click",function(evt){
+              
+                container[evt.currentTarget.name].swapChildrenAt(0,2);
+
+              
+            });
+            
+             container[i].addEventListener("pressup",function(evt){
+              
+                if((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>40&&evt.currentTarget.y<400)){
+                    evt.currentTarget.inContainer=true;
+                }
+                else
+                    {evt.currentTarget.inContainer=false;}
+
+                
+
+                
+             console.log(evt.currentTarget.inContainer);
+                       
+                collision=ndgmr.checkRectCollision(evt.currentTarget,recycleBin_norm);
+        
+                if(collision){
+                console.log("collision");
+                stage.removeChild(evt.currentTarget);
+
+            }
+
+        
+
+                    
+                   
+             });
+             container[i].addEventListener("click",function(evt){
+               // if(evt.currentTarget.getChildByName()==normal[evt.currentTarget.name])
+                console.log(evt.currentTarget.getChildByName("normal"+evt.currentTarget.name));
+            
+                //else
+                //console.log("child not exits");
+             });
+
+            }
+            button.addEventListener("click",function(evt){
+               // hide all values
+                for(var i=1;i<=8;i++){
+                    index[i] = container[i].getChildIndex(cardNumber[i]);
+                    if((index[i]==2)&&(container[i].inContainer==true)){
+                    container[i].swapChildrenAt(0,2);
+                    }
+                    
+                }
+            });
+            button1.addEventListener("click",function(evt){
+                //show all values
+                for(var i=1;i<=8;i++){
+                    index[i] = container[i].getChildIndex(cardNumber[i]);
+                    if((index[i]!=2)&&(container[i].inContainer==true))
+                    container[i].swapChildrenAt(0,2);
+                    
+                }
+
+            });
+            button2.addEventListener("click",function(evt){
+                //clear all values
+                 /* for(var i=1;i<=8;i++){
+                    
+                    if(container[i].inContainer==true)
+                    stage.removeChild(container[i]);
+                    
+                }
+                */
+                j=3;
+                  
+            });
+
+
+            
+            viewMain();
+
+            }
+
+
+
+            ///function views///
+
+
+            function viewMain(){
+                stage.removeAllChildren();
+                stack.x=20;
+                stack.y=450;
+                recycleBin_norm.x=872;
+                recycleBin_norm.y=461;
+                button.x= 545;
+                button1.x= 375;
+                button2.x= 715;
+                button.y=button1.y=button2.y=526;
+                stage.addChild(stack,recycleBin_norm,mainContainer,button,button1,button2);
+                for(var i=8;i>=1;i--){
+
+                    container[i].x=20;
+                    container[i].y=450;
+                    stage.addChild(container[i]);
+                }
+               
+                stage.update();
+            }
+            /////// function event handlers////
+
+            function stagePressHandler(e){
+          //  console.log(e.stageX+" ::: "+e.stageY);
+            }
+
+
+            /////////////////////////ticker/////////////////////////////////////
+        function tick(){
+
+
+        stage.update();
+        }
+
+
+         
+    </script>
+
+ </html>
