@@ -21,9 +21,11 @@
             <body bgcolor="#159acf">
 
 
-            </body>
+
+            
             
             <style>
+
 
            
     canvas {
@@ -40,8 +42,35 @@
     margin: auto;
     }
 
+        input {
+      font-family: "Helvetica Neue", "Cinzel", Arial, sans-serif;
+      border:1px solid #ccc;
+      background-color:rgba(0,0,0,0);
+
+      font-size:40px;
+      width:60px;
+      font-weight: bold;
+      text-align: center;
+      min-height:48px;
+      display:block;
+      cursor:default;
+
+
+
+      outline: none;
+
+      
+      -webkit-border-radius:5px;
+      -moz-border-radius:5px;
+      -o-border-radius:5px;
+      -ms-border-radius:5px;
+      border-radius:5px;
+
+        }
+
 
             </style>
+
 
     <script>
 
@@ -51,23 +80,218 @@
       var filesloaded;
       var border;
       ///coding variables
+      var m;
+      var mm;
+      var num=2;
       var collision;
-      var collision1;
       var mainContainer;
       var container = new Array();
-      var cardNumber =new Array();
       
+      var cardNumber =new Array();
       var j=1;
+      var num_of_cards=1;
+      var inContainerr= new Array();
+
+
+      var cartDiv= new Array();
+      var enterquestion=new Array();
+      var enterquestionDom=new Array();
+
+      var labelDiv = new Array();
+      var firstBox;
+      var firstBoxDOM;
+      var incrementBox;
+      var incrementBoxDOM;
+      var limit=1;
+      var bitmapArray = new Array();
+      //var 1 =0;
+
+
+
+
+      //////color selector
+      var odd=["1","1","3","5","7","9","11","13","15","17","19","21","23","25","27","29","31","33","35","37","39"];
+      var even=["1","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38"];
+      var triangles=["1","3","6","10","15","21","28","36","45","55","66","78","91","105","120","136","153","171","190","210","231","253","276","300","325","351","378","406","435","465","496","528","561","595","630","666","703","741","780","820"];
+      var prime=["2","3","5","7","11","13","17","19","23","29","31","37","41","43","47","53","59","61","67","71","73","79","83","89","97","101","103","107","109","113","127","131","137","139","149","151","157","163","167","173"];
+      var roman=["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX"];
+
+      
+      ///color selector- function
+      function getData(title){
+        for(var i=1;i<100;i++){
+     if((container[i]!=undefined)&&(container[i].inContainer==false)){
+      //document.getElementById(i).style.visibility="hidden";
+
+      stage.removeChild(container[i]);
+
+     }
+   }
+
+
+         j=title.value;
+         num_of_cards=inContainerr.length+1;
+
+         set_bitmap();
+         get_stack(num_of_cards);
+        // console.log(inContainerr.length);
+
+
+         
+       // console.log(j);
+      }
+      function getCardType(title){
+        var a = title.value;
+        console.log(a);
+        
+        
+       
+       
+       switch(a){
+                      case 0://serial
+                       for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=i;
+                        }
+                      }
+                      
+                      break;
+
+                      case 1:
+                      
+                      //console.log(limit);
+                
+                        
+                          
+                          for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=odd[i];
+                        }
+                        }
+                        
+                         // console.log("odd ="+limit);
+
+
+                        
+                        
+                        break;
+
+                      case 2:
+
+                        
+                        for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=even[i];
+                        }
+                      }
+
+                        
+                       break;
+
+                      case 3:
+                      for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=triangles[i];
+                        }
+                      }
+                        break;
+
+                      case 4://squares
+                      for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=i*i;
+                        }
+                      }
+
+                       
+                        break;
+                      case 5://primes
+                      for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=prime[i];
+                        }
+                      }
+
+
+                      break;
+
+                      case 6:
+                      for(var i=num_of_cards;i<100;i++) { 
+                            if(container[i]!=undefined){
+                          document.getElementById(i).value=roman[i];
+                        }
+                      }
+
+
+                      break;
+
+                      case 7:
+
+
+                      break;
+
+                        case 11:
+                        for(var i =1;i<3;i++){
+                        labelDiv[i]=document.createElement("div");
+                        }
+                        document.body.appendChild(labelDiv[1]);
+                       // document.body.appendChild(labelDiv[i]);
+                        labelDiv[1].id = "labeDiv"+1;
+                        document.getElementById(labelDiv[1].id).innerHTML="<input type=\"text\" id="+1+" size=\"6\" maxlength=\"5\" ></input>";
+                        document.body.appendChild(labelDiv[2]);
+                       // document.body.appendChild(labelDiv[i]);
+                        labelDiv[2].id = "labeDiv"+2;
+                        document.getElementById(labelDiv[2].id).innerHTML="<input type=\"text\" id="+2+" size=\"6\" maxlength=\"5\" ></input>";
+                        
+
+
+                        //document.getElementById(i).value=getCardType(1);
+                        firstBox = document.getElementById(labelDiv[1].id);
+                        incrementBox = document.getElementById(labelDiv[2].id);
+                        firstBoxDOM = new createjs.DOMElement(firstBox);
+                        incrementBoxDOM = new createjs.DOMElement(incrementBox);
+                        firstBoxDOM.x=200;
+                        firstBoxDOM.y=200;
+
+                        incrementBoxDOM.x=350;
+                        incrementBoxDOM.y=350;
+
+                        stage.addChild(firstBoxDOM,incrementBoxDOM);
+                        console.log("accessed");
+
+
+                      
+                        
+                        
+
+                        
+                        
+                        break;
+
+
+
+
+                        
+       }
+
+      }
+      //////
       var color=["blue","green","grey","orange","pink","red","yellow"];
 
       var flipped=false;
       ///bitmap variables
       var stack;
+      //
       var normal = new Array();
+      
+        ///
       var down;
       var flip_normal = new Array();
+      
+        ///
       var flip_down;
       var button_normal = new Array();
+      
       var button_down;
       var recycleBin_norm;
       var recycleBin_over;
@@ -80,6 +304,8 @@
       var inContainer;
 
       /////
+      //css elements
+      
 
 
      var queue = new createjs.LoadQueue();
@@ -109,7 +335,9 @@
             queue.loadFile({id:"button",src:"images/button.PNG"});
             queue.loadFile({id:"button1",src:"images/button1.png"});
             queue.loadFile({id:"button2",src:"images/button2.png"});
+            //////DOM
 
+            
             
 
             /////canvas setting////
@@ -123,6 +351,7 @@
 
                   stage = new createjs.Stage(canvas);
                   stage.enableMouseOver(); 
+                  stage.enableDOMEvents(true);
 
 
                   createjs.Touch.enable(stage);
@@ -135,6 +364,42 @@
                    
 
                   stage.addEventListener("click", stagePressHandler);
+                  ///DOM
+                  for(var i =1;i<3;i++){
+                        labelDiv[i]=document.createElement("div");
+                        }
+                        labelDiv[4]=document.createElement("Button");
+                        button.innerHTML = 'click me';
+                        button.onclick = function(){
+                          alert('here be dragons');
+                          return false;
+                        };
+                        document.body.appendChild(labelDiv[4]);
+
+                        document.body.appendChild(labelDiv[1]);
+                       // document.body.appendChild(labelDiv[i]);
+                        labelDiv[1].id = "labeDiv"+1;
+                        document.getElementById(labelDiv[1].id).innerHTML="<input type=\"text\" id="+1+" size=\"6\" maxlength=\"5\" ></input>";
+                        document.body.appendChild(labelDiv[2]);
+                       // document.body.appendChild(labelDiv[i]);
+                        labelDiv[2].id = "labeDiv"+2;
+                        document.getElementById(labelDiv[2].id).innerHTML="<input type=\"text\" id="+2+" size=\"6\" maxlength=\"5\" ></input>";
+                        
+
+
+                        //document.getElementById(i).value=getCardType(1);
+                        firstBox = document.getElementById(labelDiv[1].id);
+                        incrementBox = document.getElementById(labelDiv[2].id);
+                        firstBoxDOM = new createjs.DOMElement(firstBox);
+                        incrementBoxDOM = new createjs.DOMElement(incrementBox);
+                        firstBoxDOM.x=200;
+                        firstBoxDOM.y=200;
+
+                        incrementBoxDOM.x=350;
+                        incrementBoxDOM.y=350;
+
+                        stage.addChild(firstBoxDOM,incrementBoxDOM);
+
             ////////////////////////////handle file load function ////     
 
 
@@ -151,36 +416,12 @@
             function handleComplete() {
             //////console.log('handle complete');
             stage.removeChild(loading);
+
+
             //load screen images to bitmaps and store the bitmaps in vairables
             stack = new createjs.Bitmap(queue.getResult("stack"+j));
             
-            for(var i=1;i<=8;i++){
-            normal[i] = new createjs.Bitmap(queue.getResult("normal"+j));
-            normal[i].name="normal"+i;
-            flip_normal[i] = new createjs.Bitmap(queue.getResult("flip_normal"+j));
-            button_normal[i] = new createjs.Bitmap(queue.getResult("button_normal"+j));
-
-            ////text////
-             cardNumber[i] = new createjs.Text("","40px Verdana bold","black");
-                  ///ardNumber[i].lineWidth = 500;
-                  cardNumber[i].textAlign = "center";
-                  cardNumber[i].x=44;
-                  cardNumber[i].y=35;
-                  cardNumber[i].text=i;
-                  cardNumber[i].name="number"+i;
-                  /////
-                  button_normal[i].x=56;
-                  button_normal[i].y=83;
-                  button_normal[i].name=i;
-
-                  
-            ////container////
-            container[i] = new createjs.Container();
-            container[i].name=i;
-
-            container[i].addChild(flip_normal[i],normal[i],cardNumber[i],button_normal[i]);
-
-            }
+            
 
             down = new createjs.Bitmap(queue.getResult("down"+j));
             button = new createjs.Bitmap(queue.getResult("button"));
@@ -208,23 +449,85 @@
             mainContainer = new createjs.Container();
             mainContainer.addChild(border);
            
-
+            set_bitmap();
           
-            for(var i=1;i<=8;i++){
+            
 
-            cardNumber[i].addEventListener("dblclick",function(evt){
-            evt.currentTarget.text="hello world";
 
-                
+            
+            viewMain();
+            
+
+            }
+
+
+
+            ///function views///
+            function set_bitmap(){
+                  for(i=num_of_cards,m=3;i<4+(num_of_cards-1);m--,i++){
+                    console.log("i="+i);
+            normal[i] = new createjs.Bitmap(queue.getResult("normal"+j));
+            normal[i].name="normal"+i;
+            console.log(normal[i].name);
+            flip_normal[i] = new createjs.Bitmap(queue.getResult("flip_normal"+j));
+            button_normal[i] = new createjs.Bitmap(queue.getResult("button_normal"+j));
+
+            ////text////
+           /* cardNumber[i] = new createjs.Text("","40px Verdana bold","black");
+                  ///ardNumber[i].lineWidth = 500;
+                  cardNumber[i].textAlign = "center";
+                  cardNumber[i].x=44;
+                  cardNumber[i].y=35;
+                  cardNumber[i].text=i;
+                  cardNumber[i].name="number"+i;
+                  ////*/
+                  button_normal[i].x=56;
+                  button_normal[i].y=83;
+                  button_normal[i].name=i;
+
+                  
+            ////container////
+            container[i] = new createjs.Container();
+            container[i].name=i;
           
-        
 
-            });
+            cartDiv[i]=document.createElement("div");
+            document.body.appendChild(cartDiv[i]);
+            cartDiv[i].id = "EnterQuestionDiv"+i;
+            document.getElementById(cartDiv[i].id).innerHTML="<input type=\"text\" id="+i+" size=\"6\" maxlength=\"5\" ></input>";
+            getCardType(6);
 
+            //document.getElementById(i).value=getCardType(1);
+
+
+            
+
+
+             
+            enterquestion[i] = document.getElementById(cartDiv[i].id);
+            enterquestionDom[i] = new createjs.DOMElement(enterquestion[i]);
+            enterquestionDom[i].x = 271;
+            enterquestionDom[i].y = 80;
+            enterquestionDom[i].text=""+i; 
+          //  console.log(enterquestionDom[i].text);
+            
+            //enterquestionDom[i].text = "hassan";
+            //stage.addChild(enterquestionDom);
+            //normal.addChild(enterquestionDom[i])
+            
+
+            container[i].addChild(flip_normal[i],normal[i],enterquestionDom[i],button_normal[i]);
+
+            
+          }
+          for(var i=1;i<100;i++){
+
+            if(container[i]!=undefined){
             container[i].addEventListener("pressmove",function(evt){
+
                 evt.currentTarget.x = (evt.stageX-40);
                 evt.currentTarget.y = (evt.stageY-35);
-                if(evt.currentTarget.name==8){
+                if(evt.currentTarget.name==3){
                     stage.removeChild(stack);
                 }
 
@@ -232,30 +535,55 @@
             button_normal[i].addEventListener("click",function(evt){
               
                 container[evt.currentTarget.name].swapChildrenAt(0,2);
+                if(enterquestionDom[evt.currentTarget.name].visible==true)
+                enterquestionDom[evt.currentTarget.name].visible=false;
+                else
+                enterquestionDom[evt.currentTarget.name].visible=true;
+                //container[evt.currentTarget.name].removeChild(enterquestionDom[evt.currentTarget.name]);
+                //stage.removeChild(enterquestionDom[evt.currentTarget.name]);
+                ///
+            
+        /////
+
 
               
             });
             
              container[i].addEventListener("pressup",function(evt){
               
-                if((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>40&&evt.currentTarget.y<400)){
+                if(((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>40&&evt.currentTarget.y<400))&&(evt.currentTarget.inContainer!=true)){
                     evt.currentTarget.inContainer=true;
+
+                    inContainerr.push(evt.currentTarget);
+                   console.log("incontainerr.lenght = "+inContainerr.length);
                 }
-                else
-                    {evt.currentTarget.inContainer=false;}
+                else if(evt.currentTarget.inContainer==false)
+                    {
+
+                        evt.currentTarget.inContainer=false;
+                       // console.log(evt.currentTarget.inContainer);
+                        TweenMax.to(evt.currentTarget,3,{x:"20",y:"450",ease:Bounce.easeOut});
+
+
+                    }
+
+                if((evt.currentTarget.x>870&&evt.currentTarget.x<960)&&(evt.currentTarget.y>460&&evt.currentTarget.y<565)){
+                enterquestionDom[evt.currentTarget.name].visible=false;
+                evt.currentTarget.removeChild(enterquestionDom[evt.currentTarget.name]);
+                stage.removeChild(evt.currentTarget);
+                
+                }
 
                 
-
-                
-             console.log(evt.currentTarget.inContainer);
+             /*console.log(evt.currentTarget.inContainer);
                        
-                collision=ndgmr.checkRectCollision(evt.currentTarget,recycleBin_norm);
+             collision=ndgmr.checkRectCollision(evt.currentTarget,recycleBin_norm);
         
                 if(collision){
                 console.log("collision");
                 stage.removeChild(evt.currentTarget);
 
-            }
+            }*/
 
         
 
@@ -263,56 +591,61 @@
                    
              });
              container[i].addEventListener("click",function(evt){
-               // if(evt.currentTarget.getChildByName()==normal[evt.currentTarget.name])
-                console.log(evt.currentTarget.getChildByName("normal"+evt.currentTarget.name));
-            
-                //else
-                //console.log("child not exits");
+                if(evt.currentTarget.getChildByName("normal"+evt.currentTarget.name)!=undefined)
+                console.log(evt.currentTarget.name);
+                else
+                console.log("child not exits");
              });
 
             }
+          }
             button.addEventListener("click",function(evt){
                // hide all values
-                for(var i=1;i<=8;i++){
-                    index[i] = container[i].getChildIndex(cardNumber[i]);
-                    if((index[i]==2)&&(container[i].inContainer==true)){
+                for(var i=1;i<100;i++){
+                  if(container[i]!=undefined){
+                    index[i] = container[i].getChildIndex(flip_normal[i]);
+                    if((index[i]!=2)&&(container[i].inContainer==true)){
                     container[i].swapChildrenAt(0,2);
+                    document.getElementById(i).style.visibility="hidden";
+                    //enterquestionDom[i].visible=false;
+
                     }
+                  }
                     
                 }
             });
             button1.addEventListener("click",function(evt){
                 //show all values
-                for(var i=1;i<=8;i++){
-                    index[i] = container[i].getChildIndex(cardNumber[i]);
-                    if((index[i]!=2)&&(container[i].inContainer==true))
+                for(var i=1;i<100;i++){
+                  if(container[i]!=undefined){
+                    index[i] = container[i].getChildIndex(flip_normal[i]);
+                    if((index[i]==2)&&(container[i].inContainer==true)){
                     container[i].swapChildrenAt(0,2);
-                    
+                     document.getElementById(i).style.visibility="visible";
+
+                   }
+                   
+                    }
                 }
 
             });
             button2.addEventListener("click",function(evt){
                 //clear all values
-                 for(var i=1;i<=8;i++){
+                  for(var i=1;i<100;i++){
+                    if(container[i]!=undefined){
                     
-                    if(container[i].inContainer==true)
-                    stage.removeChild(container[i]);
+                    if(container[i].inContainer===true){
+                      document.getElementById(i).style.visibility="hidden";
+                      stage.removeChild(container[i]);
+                    
+                  }
+                }
                     
                 }
                 
-               
                   
             });
-
-
-            
-            viewMain();
-
             }
-
-
-
-            ///function views///
 
 
             function viewMain(){
@@ -326,19 +659,37 @@
                 button2.x= 715;
                 button.y=button1.y=button2.y=526;
                 stage.addChild(stack,recycleBin_norm,mainContainer,button,button1,button2);
-                for(var i=8;i>=1;i--){
-
+                get_stack(num_of_cards);
+                
+                stage.update();
+            }
+            function get_stack(num_of_cards){
+               // console.log(num_of_cards);
+               
+                 for(var i=num_of_cards;i<4+(num_of_cards-1);i++){
+                  //when num of cards =1 , 4+1-1=4 1,2,3// i=3 , 4+3-1=6, 3,4,5,; i =5 8 ,5 6 7 ---!
+                  //if(bitmapArray[i]==undefined){
                     container[i].x=20;
                     container[i].y=450;
+                    container[i].inContainer=false;
+                    //bitmapArray[i]=container[i].name;
+                   // console.log(container[i].inContainer);
+
                     stage.addChild(container[i]);
-                }
-               
-                stage.update();
+                    stage.update();
+                  }
+
+
+                
+             // }
+                
+
+
             }
             /////// function event handlers////
 
             function stagePressHandler(e){
-          //  console.log(e.stageX+" ::: "+e.stageY);
+         //   console.log(e.stageX+" ::: "+e.stageY);
             }
 
 
@@ -352,5 +703,36 @@
 
          
     </script>
+    
+     
+
+
+    </body>
+    <footer>
+      <select id="color_change" name="color" onChange="getData(this);">
+<option value="0">blue</option>
+<option value="1">green</option>
+<option value="2">grey</option>
+<option value="3">orange</option>
+<option value="4">pink</option>
+<option value="5">red</option>
+<option value="6">yellow</option>
+</select>
+ <select id="card_change" name="card_type" onChange="getCardType(this);">
+<option value="0">Serial</option>
+<option value="1">Odds</option>
+<option value="2">Even</option>
+<option value="3">Triangles</option>
+<option value="4">Squares</option>
+<option value="5">Primes</option>
+<option value="6">Roman Numerals</option>
+<option value="7">Random-2 digit</option>
+<option value="8">Random-1 digit</option>
+<option value="9">DIE</option>
+<option value="10">Classic Cards</option>
+<option value="11">Custom</option>
+</select>
+    </footer>
+
 
  </html>
