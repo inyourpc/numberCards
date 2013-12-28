@@ -17,6 +17,7 @@
    
 
             <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+
            
             <body bgcolor="#159acf">
 
@@ -89,6 +90,7 @@
       
       var cardNumber =new Array();
       var j=1;
+      var maxNumber=5;
       var num_of_cards=1;
       var inContainerr= new Array();
 
@@ -118,10 +120,28 @@
 
       
       ///color selector- function
+      function getMaxCard(title){
+         for(var i=1;i<100;i++){
+     if((container[i]!=undefined)&&(container[i].inContainer==false)){
+      document.getElementById(i).style.visibility="hidden";
+
+      stage.removeChild(container[i]);
+
+     }
+   }
+          var numb=title.value;
+         maxNumber = parseInt(numb);
+
+        console.log(maxNumber);
+        num_of_cards=inContainerr.length+1;
+        set_bitmap();
+        get_stack(num_of_cards);
+
+      }
       function getData(title){
         for(var i=1;i<100;i++){
      if((container[i]!=undefined)&&(container[i].inContainer==false)){
-      //document.getElementById(i).style.visibility="hidden";
+      document.getElementById(i).style.visibility="hidden";
 
       stage.removeChild(container[i]);
 
@@ -141,7 +161,7 @@
        // console.log(j);
       }
       function getCardType(title){
-        var a = title.value;
+        var a = title;
         console.log(a);
         
         
@@ -216,10 +236,15 @@
                       break;
 
                       case 6:
-                      for(var i=num_of_cards;i<100;i++) { 
+                     
+                      for(var i=num_of_cards,m=0;i<100;m++,i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=roman[i];
+                              
+                          document.getElementById(i).value=roman[m];
+
                         }
+
+                        
                       }
 
 
@@ -368,13 +393,16 @@
                   for(var i =1;i<3;i++){
                         labelDiv[i]=document.createElement("div");
                         }
+                        ////botton
                         labelDiv[4]=document.createElement("Button");
-                        button.innerHTML = 'click me';
-                        button.onclick = function(){
-                          alert('here be dragons');
-                          return false;
+                        labelDiv[4].innerHTML = 'click me';
+                        labelDiv[4].onclick = function(){
+                          //var color =prompt("color","green");
+                          var label =prompt("label","odd");
+                          
+                          
                         };
-                        document.body.appendChild(labelDiv[4]);
+                       /* document.body.appendChild(labelDiv[4]);
 
                         document.body.appendChild(labelDiv[1]);
                        // document.body.appendChild(labelDiv[i]);
@@ -392,13 +420,14 @@
                         incrementBox = document.getElementById(labelDiv[2].id);
                         firstBoxDOM = new createjs.DOMElement(firstBox);
                         incrementBoxDOM = new createjs.DOMElement(incrementBox);
-                        firstBoxDOM.x=200;
-                        firstBoxDOM.y=200;
+                        firstBoxDOM.x=20;
+                        firstBoxDOM.y=100;
 
-                        incrementBoxDOM.x=350;
-                        incrementBoxDOM.y=350;
+                        incrementBoxDOM.x=100;
+                        incrementBoxDOM.y=100;
 
                         stage.addChild(firstBoxDOM,incrementBoxDOM);
+                        */
 
             ////////////////////////////handle file load function ////     
 
@@ -464,7 +493,7 @@
 
             ///function views///
             function set_bitmap(){
-                  for(i=num_of_cards,m=3;i<4+(num_of_cards-1);m--,i++){
+                  for(i=num_of_cards,m=3;i<(maxNumber+1)+(num_of_cards-1);m--,i++){
                     console.log("i="+i);
             normal[i] = new createjs.Bitmap(queue.getResult("normal"+j));
             normal[i].name="normal"+i;
@@ -484,6 +513,9 @@
                   button_normal[i].x=56;
                   button_normal[i].y=83;
                   button_normal[i].name=i;
+                  //console.log("button_normal[i].name "+name);
+
+
 
                   
             ////container////
@@ -520,6 +552,7 @@
 
             
           }
+
           for(var i=1;i<100;i++){
 
             if(container[i]!=undefined){
@@ -527,7 +560,7 @@
 
                 evt.currentTarget.x = (evt.stageX-40);
                 evt.currentTarget.y = (evt.stageY-35);
-                if(evt.currentTarget.name==3){
+                if(evt.currentTarget.name==5){
                     stage.removeChild(stack);
                 }
 
@@ -539,6 +572,26 @@
                 enterquestionDom[evt.currentTarget.name].visible=false;
                 else
                 enterquestionDom[evt.currentTarget.name].visible=true;
+                
+
+              /*container[evt.currentTarget.name].swapChildrenAt(0,2);
+                    index[evt.currentTarget.name] = container[evt.currentTarget.name].getChildIndex(flip_normal[evt.currentTarget.name]);
+                    if((index[evt.currentTarget.name]!=2)&&(container[evt.currentTarget.name].inContainer==true)){
+                    
+                    //document.getElementById(i).style.visibility="hidden";
+                    enterquestionDom[evt.currentTarget.name].visible=true;
+
+                    }
+                    else
+                      enterquestionDom[evt.currentTarget.name].visible=false;
+                    */
+
+
+
+
+                  
+                    
+                
                 //container[evt.currentTarget.name].removeChild(enterquestionDom[evt.currentTarget.name]);
                 //stage.removeChild(enterquestionDom[evt.currentTarget.name]);
                 ///
@@ -553,6 +606,7 @@
               
                 if(((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>40&&evt.currentTarget.y<400))&&(evt.currentTarget.inContainer!=true)){
                     evt.currentTarget.inContainer=true;
+                    console.log(evt.currentTarget.inContainer);
 
                     inContainerr.push(evt.currentTarget);
                    console.log("incontainerr.lenght = "+inContainerr.length);
@@ -566,24 +620,32 @@
 
 
                     }
+                else if(((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>400))&&(evt.currentTarget.inContainer==true)){
+                       // console.log(evt.currentTarget.inContainer);
+                        TweenMax.to(evt.currentTarget,3,{x:"400",y:"200",ease:Bounce.easeOut});
 
-                if((evt.currentTarget.x>870&&evt.currentTarget.x<960)&&(evt.currentTarget.y>460&&evt.currentTarget.y<565)){
-                enterquestionDom[evt.currentTarget.name].visible=false;
-                evt.currentTarget.removeChild(enterquestionDom[evt.currentTarget.name]);
-                stage.removeChild(evt.currentTarget);
-                
                 }
 
+                if((evt.currentTarget.x>850&&evt.currentTarget.x<960)&&(evt.currentTarget.y>450&&evt.currentTarget.y<565)){
+                  enterquestionDom[evt.currentTarget.name].visible=false;
+                  evt.currentTarget.removeChild(enterquestionDom[evt.currentTarget.name]);
+                  stage.removeChild(evt.currentTarget);
                 
-             /*console.log(evt.currentTarget.inContainer);
-                       
-             collision=ndgmr.checkRectCollision(evt.currentTarget,recycleBin_norm);
+                  }
+                  
+
+                
+             //console.log(evt.currentTarget.inContainer);
+               
+            /* 
+        collision = ndgmr.checkPixelCollision(evt.currentTarget,recycleBin_norm,1,false);
         
                 if(collision){
                 console.log("collision");
                 stage.removeChild(evt.currentTarget);
 
-            }*/
+            }
+            */
 
         
 
@@ -591,7 +653,7 @@
                    
              });
              container[i].addEventListener("click",function(evt){
-                if(evt.currentTarget.getChildByName("normal"+evt.currentTarget.name)!=undefined)
+                if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined)
                 console.log(evt.currentTarget.name);
                 else
                 console.log("child not exits");
@@ -606,13 +668,15 @@
                     index[i] = container[i].getChildIndex(flip_normal[i]);
                     if((index[i]!=2)&&(container[i].inContainer==true)){
                     container[i].swapChildrenAt(0,2);
-                    document.getElementById(i).style.visibility="hidden";
-                    //enterquestionDom[i].visible=false;
+                    //document.getElementById(i).style.visibility="hidden";
+                    enterquestionDom[i].visible=false;
 
                     }
                   }
                     
                 }
+                
+                
             });
             button1.addEventListener("click",function(evt){
                 //show all values
@@ -621,7 +685,8 @@
                     index[i] = container[i].getChildIndex(flip_normal[i]);
                     if((index[i]==2)&&(container[i].inContainer==true)){
                     container[i].swapChildrenAt(0,2);
-                     document.getElementById(i).style.visibility="visible";
+                     //document.getElementById(i).style.visibility="visible";
+                     enterquestionDom[i].visible=true;
 
                    }
                    
@@ -666,7 +731,7 @@
             function get_stack(num_of_cards){
                // console.log(num_of_cards);
                
-                 for(var i=num_of_cards;i<4+(num_of_cards-1);i++){
+                 for(var i=maxNumber+(num_of_cards-1);i>=num_of_cards;i--){
                   //when num of cards =1 , 4+1-1=4 1,2,3// i=3 , 4+3-1=6, 3,4,5,; i =5 8 ,5 6 7 ---!
                   //if(bitmapArray[i]==undefined){
                     container[i].x=20;
@@ -731,6 +796,12 @@
 <option value="9">DIE</option>
 <option value="10">Classic Cards</option>
 <option value="11">Custom</option>
+</select>
+<select id="num_of_cards" name="number" onChange="getMaxCard(this);">
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+<option value="40">40</option>
 </select>
     </footer>
 
