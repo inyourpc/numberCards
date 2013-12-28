@@ -493,7 +493,7 @@
 
             ///function views///
             function set_bitmap(){
-                  for(i=num_of_cards,m=3;i<(maxNumber+1)+(num_of_cards-1);m--,i++){
+                  for(i=num_of_cards,m=num_of_cards;i<(maxNumber+1)+(num_of_cards-1);m++,i++){
                     console.log("i="+i);
             normal[i] = new createjs.Bitmap(queue.getResult("normal"+j));
             normal[i].name="normal"+i;
@@ -512,7 +512,7 @@
                   ////*/
                   button_normal[i].x=56;
                   button_normal[i].y=83;
-                  button_normal[i].name=i;
+                  button_normal[i].name=m;
                   //console.log("button_normal[i].name "+name);
 
 
@@ -551,11 +551,8 @@
             container[i].addChild(flip_normal[i],normal[i],enterquestionDom[i],button_normal[i]);
 
             
-          }
 
-          for(var i=1;i<100;i++){
-
-            if(container[i]!=undefined){
+            
             container[i].addEventListener("pressmove",function(evt){
 
                 evt.currentTarget.x = (evt.stageX-40);
@@ -653,14 +650,14 @@
                    
              });
              container[i].addEventListener("click",function(evt){
-                if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined)
-                console.log(evt.currentTarget.name);
-                else
-                console.log("child not exits");
+                if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined){}
+               // console.log(evt.currentTarget.name);
+                else{}
+               // console.log("child not exits");
              });
 
             }
-          }
+          
             button.addEventListener("click",function(evt){
                // hide all values
                 for(var i=1;i<100;i++){
