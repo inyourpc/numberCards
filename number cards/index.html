@@ -20,6 +20,9 @@
 
            
             <body bgcolor="#159acf">
+             First Value :<input type="text" id="txt1"  maxlength="4" size="6" onkeyup="sum();" />
+              
+             Increment :<input type="text" id="txt2" maxlength="3" size="6" onkeyup="sum();" />
 
 
 
@@ -81,7 +84,7 @@
       var filesloaded;
       var border;
       ///coding variables
-      var b=1;
+      var b=0;
       var m;
       var mm;
       var num=2;
@@ -108,6 +111,28 @@
       var limit=1;
       var bitmapArray = new Array();
       //var 1 =0;
+      document.getElementById('txt1').disabled = true;
+      document.getElementById('txt2').disabled = true;
+
+                        document.getElementById('txt1').style.backgroundColor="grey";
+
+                        document.getElementById('txt2').style.backgroundColor="grey";
+      var result1;
+      function sum() {
+            var txtFirstNumberValue = document.getElementById('txt1').value;
+            var txtSecondNumberValue = document.getElementById('txt2').value;
+            var result = parseFloat(txtFirstNumberValue) + parseFloat(txtSecondNumberValue);
+
+            if (!isNaN(result)) {
+              for(var i=num_of_cards,result1=result;i<=100;result1+=parseFloat(txtSecondNumberValue),i++)
+                if((container[i]!=undefined)&&(container[i].inContainer==false))
+                document.getElementById(i).value = result1;
+              //document.getElementById(i).value += txtSecondNumberValue;
+              
+              
+            }
+        }
+
 
 
 
@@ -178,7 +203,7 @@
        switch(b){
                       case 0://serial
                        for(var i=num_of_cards,m=1;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
                           document.getElementById(i).value=m;
                           if(m<maxNumber)
                             m++;
@@ -195,7 +220,7 @@
                         
                           
                           for(var i=num_of_cards,m=1;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
 
                           document.getElementById(i).value=odd[m];
                           if(m<maxNumber)
@@ -214,7 +239,7 @@
 
                         
                         for(var i=num_of_cards,m=1;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
                           document.getElementById(i).value=even[m];
                           if(m<maxNumber)
                             m++;
@@ -227,7 +252,7 @@
 
                       case 3:
                       for(var i=num_of_cards,m=1;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
                           document.getElementById(i).value=triangles[m];
                           if(m<maxNumber)
                             m++;
@@ -238,7 +263,7 @@
 
                       case 4://squares
                       for(var i=num_of_cards,m=1;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
                           document.getElementById(i).value=m*m;
                           if(m<maxNumber)
                             m++;
@@ -250,7 +275,7 @@
                         break;
                       case 5://primes
                       for(var i=num_of_cards,m=1;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
                           document.getElementById(i).value=prime[m];
                           if(m<maxNumber)
                             m++;
@@ -264,7 +289,7 @@
                       case 6:
                      
                       for(var i=num_of_cards,m=0;i<100;i++) { 
-                            if(container[i]!=undefined){
+                            if((container[i]!=undefined)&&(container[i].inContainer==false)){
                               
                           document.getElementById(i).value=roman[m];
                           if(m<maxNumber)
@@ -285,13 +310,14 @@
                       break;
 
                         case 11:
-                        for(var i =1;i<3;i++){
+                       /* for(var i =1;i<3;i++){
                         labelDiv[i]=document.createElement("div");
                         }
                         document.body.appendChild(labelDiv[1]);
                        // document.body.appendChild(labelDiv[i]);
                         labelDiv[1].id = "labeDiv"+1;
                         document.getElementById(labelDiv[1].id).innerHTML="<input type=\"text\" id="+1+" size=\"6\" maxlength=\"5\" ></input>";
+
                         document.body.appendChild(labelDiv[2]);
                        // document.body.appendChild(labelDiv[i]);
                         labelDiv[2].id = "labeDiv"+2;
@@ -304,14 +330,22 @@
                         incrementBox = document.getElementById(labelDiv[2].id);
                         firstBoxDOM = new createjs.DOMElement(firstBox);
                         incrementBoxDOM = new createjs.DOMElement(incrementBox);
-                        firstBoxDOM.x=200;
-                        firstBoxDOM.y=200;
+                        firstBoxDOM.x=20;
+                        firstBoxDOM.y=50;
 
-                        incrementBoxDOM.x=350;
-                        incrementBoxDOM.y=350;
+                        incrementBoxDOM.x=150;
+                        incrementBoxDOM.y=50;
 
                         stage.addChild(firstBoxDOM,incrementBoxDOM);
                         console.log("accessed");
+                        //document.getElementById(i).value=
+                        */
+                        document.getElementById('txt1').disabled = false;
+                        document.getElementById('txt2').disabled = false;
+                        document.getElementById('txt1').style.backgroundColor="white";
+
+                        document.getElementById('txt2').style.backgroundColor="white";
+                        
 
 
                       
@@ -735,7 +769,7 @@
                 stage.update();
             }
             function get_stack(num_of_cards){
-               getCardType(b);
+               
                // console.log(num_of_cards);
                
                  for(var i=maxNumber+(num_of_cards-1);i>=num_of_cards;i--){
@@ -750,6 +784,7 @@
                     stage.addChild(container[i]);
                     stage.update();
                   }
+                  getCardType(b);
 
 
                 
