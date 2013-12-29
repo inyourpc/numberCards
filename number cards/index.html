@@ -81,6 +81,7 @@
       var filesloaded;
       var border;
       ///coding variables
+      var b=1;
       var m;
       var mm;
       var num=2;
@@ -161,17 +162,27 @@
        // console.log(j);
       }
       function getCardType(title){
-        var a = title;
-        console.log(a);
+          
+       // var b;
+        console.log(b);
+          if(typeof title.value === "string"){
+             b=parseInt(title.value);
+          }
+          else
+            b=title;
+        
         
         
        
        
-       switch(a){
+       switch(b){
                       case 0://serial
-                       for(var i=num_of_cards;i<100;i++) { 
+                       for(var i=num_of_cards,m=1;i<100;i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=i;
+                          document.getElementById(i).value=m;
+                          if(m<maxNumber)
+                            m++;
+                        
                         }
                       }
                       
@@ -183,9 +194,12 @@
                 
                         
                           
-                          for(var i=num_of_cards;i<100;i++) { 
+                          for(var i=num_of_cards,m=1;i<100;i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=odd[i];
+
+                          document.getElementById(i).value=odd[m];
+                          if(m<maxNumber)
+                            m++;
                         }
                         }
                         
@@ -199,9 +213,12 @@
                       case 2:
 
                         
-                        for(var i=num_of_cards;i<100;i++) { 
+                        for(var i=num_of_cards,m=1;i<100;i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=even[i];
+                          document.getElementById(i).value=even[m];
+                          if(m<maxNumber)
+                            m++;
+                        
                         }
                       }
 
@@ -209,26 +226,35 @@
                        break;
 
                       case 3:
-                      for(var i=num_of_cards;i<100;i++) { 
+                      for(var i=num_of_cards,m=1;i<100;i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=triangles[i];
+                          document.getElementById(i).value=triangles[m];
+                          if(m<maxNumber)
+                            m++;
+                        
                         }
                       }
                         break;
 
                       case 4://squares
-                      for(var i=num_of_cards;i<100;i++) { 
+                      for(var i=num_of_cards,m=1;i<100;i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=i*i;
+                          document.getElementById(i).value=m*m;
+                          if(m<maxNumber)
+                            m++;
+                        
                         }
                       }
 
                        
                         break;
                       case 5://primes
-                      for(var i=num_of_cards;i<100;i++) { 
+                      for(var i=num_of_cards,m=1;i<100;i++) { 
                             if(container[i]!=undefined){
-                          document.getElementById(i).value=prime[i];
+                          document.getElementById(i).value=prime[m];
+                          if(m<maxNumber)
+                            m++;
+                        
                         }
                       }
 
@@ -237,10 +263,13 @@
 
                       case 6:
                      
-                      for(var i=num_of_cards,m=0;i<100;m++,i++) { 
+                      for(var i=num_of_cards,m=0;i<100;i++) { 
                             if(container[i]!=undefined){
                               
                           document.getElementById(i).value=roman[m];
+                          if(m<maxNumber)
+                            m++;
+                        
 
                         }
 
@@ -480,7 +509,7 @@
            
             set_bitmap();
           
-            
+           
 
 
             
@@ -527,7 +556,7 @@
             document.body.appendChild(cartDiv[i]);
             cartDiv[i].id = "EnterQuestionDiv"+i;
             document.getElementById(cartDiv[i].id).innerHTML="<input type=\"text\" id="+i+" size=\"6\" maxlength=\"5\" ></input>";
-            getCardType(6);
+            //getCardType(6);
 
             //document.getElementById(i).value=getCardType(1);
 
@@ -570,36 +599,21 @@
                 else
                 enterquestionDom[evt.currentTarget.name].visible=true;
                 
-
-              /*container[evt.currentTarget.name].swapChildrenAt(0,2);
-                    index[evt.currentTarget.name] = container[evt.currentTarget.name].getChildIndex(flip_normal[evt.currentTarget.name]);
-                    if((index[evt.currentTarget.name]!=2)&&(container[evt.currentTarget.name].inContainer==true)){
-                    
-                    //document.getElementById(i).style.visibility="hidden";
-                    enterquestionDom[evt.currentTarget.name].visible=true;
-
-                    }
-                    else
-                      enterquestionDom[evt.currentTarget.name].visible=false;
-                    */
-
-
-
-
-                  
-                    
-                
-                //container[evt.currentTarget.name].removeChild(enterquestionDom[evt.currentTarget.name]);
-                //stage.removeChild(enterquestionDom[evt.currentTarget.name]);
-                ///
-            
-        /////
-
-
               
             });
             
              container[i].addEventListener("pressup",function(evt){
+
+                collision = ndgmr.checkRectCollision(evt.target,recycleBin_norm);
+
+
+        
+                if(collision){
+                document.getElementById(evt.currentTarget.name).style.visibility="hidden";
+                console.log("collision");
+                stage.removeChild(evt.currentTarget);
+
+            }
               
                 if(((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>40&&evt.currentTarget.y<400))&&(evt.currentTarget.inContainer!=true)){
                     evt.currentTarget.inContainer=true;
@@ -623,26 +637,21 @@
 
                 }
 
-                if((evt.currentTarget.x>850&&evt.currentTarget.x<960)&&(evt.currentTarget.y>450&&evt.currentTarget.y<565)){
+                /*if((evt.currentTarget.x>850&&evt.currentTarget.x<960)&&(evt.currentTarget.y>450&&evt.currentTarget.y<565)){
                   enterquestionDom[evt.currentTarget.name].visible=false;
                   evt.currentTarget.removeChild(enterquestionDom[evt.currentTarget.name]);
                   stage.removeChild(evt.currentTarget);
                 
-                  }
+                  }*/
                   
 
                 
              //console.log(evt.currentTarget.inContainer);
                
-            /* 
-        collision = ndgmr.checkPixelCollision(evt.currentTarget,recycleBin_norm,1,false);
-        
-                if(collision){
-                console.log("collision");
-                stage.removeChild(evt.currentTarget);
-
-            }
-            */
+            
+      
+          
+            
 
         
 
@@ -650,10 +659,10 @@
                    
              });
              container[i].addEventListener("click",function(evt){
-                if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined){}
-               // console.log(evt.currentTarget.name);
-                else{}
-               // console.log("child not exits");
+                if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined)
+                console.log(evt.currentTarget.name);
+                else
+                console.log("child not exits");
              });
 
             }
@@ -726,6 +735,7 @@
                 stage.update();
             }
             function get_stack(num_of_cards){
+               getCardType(b);
                // console.log(num_of_cards);
                
                  for(var i=maxNumber+(num_of_cards-1);i>=num_of_cards;i--){
