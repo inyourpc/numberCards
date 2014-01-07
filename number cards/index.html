@@ -5,13 +5,22 @@
 
             <title>Number Cards</title>
             <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-            <link rel="stylesheet" href="/resources/demos/style.css">
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+             <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+            <link rel="stylesheet" href="assets/lib/jquery/css/jquery.mobile-1.3.2.min.css" type="text/css"/>
+            <link rel="stylesheet" href="assets/lib/jquery/css/ThemeForTools.css"/>
+            <link rel="stylesheet" href="assets/lib/jquery/css/jquery.mobile.structure-1.3.2.min.css"/>
+            <link rel="stylesheet" href="assets/css/colorPicker.css" type="text/css"/>
+
+
+            <link rel="stylesheet" href="assets/css/infuze.styles.css">
+
+                    
+
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
             <script src="http://code.createjs.com/preloadjs-0.4.0.min.js"></script>
             <!-- EaselJS library for work with canvas-->
@@ -25,85 +34,176 @@
 
            
             <body bgcolor="#159acf">
-
-              
-              <button id="reset"  style="position: absolute; left: 800px; top: 680px;">Reset</button>
-              <button id="myButton" style="position: absolute; left: 600px; top: 680px;">Setup</button>
-              <button id="help" style="position: absolute; left: 707px; top: 680px;">Help</button>
+        
+            <div class="footer-bar-tools">
+                <div class="footer-btns-center-tools">
+                    <div id="myButton" class="footer-btn-tools" style="z-index: 1;vertical-align:middle;">SetUp</div>
+                    <div id="help" class="footer-btn-tools infoBtn" style="z-index: 1;">&nbsp;</div>
+                    <div id="reset" class="footer-btn-tools" style="z-index: 1;">Reset</div>
+                </div>
+            </div>
+        
+              <button id="clearAll" style="position: relative; left: 450px; top: 536px; z-index: 1;">Clear All Cards</button>
+              <button id="showAll" style=" left: 175px; top: 536px; z-index: 1;">Show All Values</button>
+              <button id="hideAll" style=" left: -100px; top: 536px; z-index: 1;">Hide All Values</button>
               <div id="Help" title="Help">
                 <p>Help content</p>
               </div>
               <div id="resetDialog" title="Reset">
-                 Are you sure you want to reset ? 
+                <br>
+                 <center>Are you sure you want to reset ? </center>
               </div>
-             <div id="myDialog" title="Set Up">    
-    <p>Number Of cards:<p>   
-    <select id="num_of_cards" name="number" onChange="getMaxCard(this);"style="align:center;">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="40">40</option>
-                        </select>
-    
 
-    Type Of Numbers:
-                         <select id="card_change" name="card_type" onChange="getCardType(this);">
-                        <option value="0">Serial</option>
-                        <option value="1">Odds</option>
-                        <option value="2">Even</option>
-                        <option value="3">Triangles</option>
-                        <option value="4">Squares</option>
-                        <option value="5">Primes</option>
-                        <option value="6">Roman Numerals</option>
-                        <option value="7">Random-2 digit</option>
-                        <option value="8">Random-1 digit</option>
-                        <option value="9">DIE</option>
-                        <option value="10">Classic Cards</option>
-                        <option value="11">Custom</option>
 
-                        </select>
+             <div id="myDialog" title="Set Up" >   
+              <div>
+                                <div class="numCard-dropDwn-panel">
+                                    <div data-role="fieldcontain" class="numCard-dropDwn">
+                                        <label for="num_of_cards">Number of cards:</label>
+                                        
 
-     Color:                   
-    <select id="color_change" name="color" onChange="getData(this);">
-                        <option value="0">blue</option>
-                        <option value="1">green</option>
-                        <option value="2">grey</option>
-                        <option value="3">orange</option>
-                        <option value="4">pink</option>
-                        <option value="5">red</option>
-                        <option value="6">yellow</option>
-                        </select>
+                                        <select id="num_of_cards" name="select-native-fc" data-mini="true" onChange="getMaxCard(this);" style="float:right; width:150px;">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="40">40</option>
+                                        </select>
+                                        
+                                    </div>
+</br>
+                                    <div data-role="fieldcontain">
+                                        <label for="select-2">Type of numbers:</label>
+                                        <select id="select-2" name="select-native-fc" data-mini="true" onChange="getCardType(this);" style="float:right;width:150px;">
+                                                <option value="0">Serial</option>
+                                                <option value="1">Odds</option>
+                                                <option value="2">Even</option>
+                                                <option value="3">Triangles</option>
+                                                <option value="4">Squares</option>
+                                                <option value="5">Primes</option>
+                                                <option value="6">Roman Numerals</option>
+                                                <option value="7">Random-2 digit</option>
+                                                <option value="8">Random-1 digit</option>
+                                                <option value="9">DIE</option>
+                                                <option value="10">Classic Cards</option>
+                                                <option value="11">Custom</option>
+
+                                        </select>
+                                </div>
+                                </br>
+                                <div data-role="fieldcontain">
+                                    <label for="color_change">Color:  </label>                 
+                                      <select id="color_change" name="select-native-fc" data-mini="true" onChange="getData(this);" style="float:right;width:150px;">
+                                                <option value="0">blue</option>
+                                                <option value="1">green</option>
+                                                <option value="2">grey</option>
+                                                <option value="3">orange</option>
+                                                <option value="4">pink</option>
+                                                <option value="5">red</option>
+                                                <option value="6">yellow</option>
+                                      </select>
+                                </div> 
+
+     
+                        
+                        
+                        <div style="color:#d9d9d9;">_____________________________________</div>
+             
                       
+            <h2 class="customH2">Custom number settings</h2>
+                                <div class="numCard-panel">
 
-             First Value :<input type="text" id="txt1"  maxlength="4" size="6" onkeyup="sum();" />
-              
-             Increment :<input type="text" id="txt2" maxlength="3" size="6" onkeyup="sum();" />
-    <button name="button" id="submit_values" onclick="get_all()"/>OK</button>
+                                    <div class="numCard-divLabel">
+                                        <label class="numCard-Label">First value</label>
+                                    </div>
+                                    <div class="numCard-divInput">
+                                        <input id="txt1" type="text" name="number" pattern="[0-9]*" min="1" max="4" class="number-pattern" value="10" onkeyup="sum();">
+                                    </div>
+                                </div>
+                                <div class="numCard-panel">
+                                    <div class="numCard-divLabel">
+                                        <label class="numCard-Label">Increment</label>
+                                    </div>
+                                    <div class="numCard-divInput">
+                                        <input id="txt2" type="text" name="number" pattern="[0-9]*" min="1" max="3" class="number-pattern" value="10" onkeyup="sum();">
+                                    </div>
+                                </div>
+
+
+
+
+
+                                 <div class="numCard-cardValues">
+                                    <input type="checkbox"  name="checkbox-0" data-mini="true" id="cardValues" style="float:left"/><label for="cardValues" style="float:right">Card values hidden as default</label>
+                                </div>
+                                        
+    
         
     
 </div>
+<!--<button name="button" id="submit_values" onclick="get_all()"/>OK</button> -->
 
 
 
             
             
             <style>
-
+            #myDialog {
+    
+}
+      
 
            
     canvas {
       
            
-          
+        -moz-border-radius: 10px;
+        border-radius: 10px;
         background-color: white;
         position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
 
-    margin: auto;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        margin: auto;
+        z-index: ;
     }
+    select{
+
+    }
+    .ui-dialog {
+          left: 0;
+          position: absolute;
+          top: 0;
+          background:black;
+          border: 5px solid #159acf;
+          border-radius:10px;
+          -moz-border-radius: 10px;
+          position: absolute;
+    
+
+      }
+
+
+
+
+
+      .ui-dialog-titlebar {
+      background:transparent url('images/PopUp-topBars.png') no-repeat 50% 50%;
+      
+      height: 30px;
+      background:#159acf;
+      color:white;
+      padding: 0.1em .5em;
+          
+      border: 5px;
+      font-size: 1.2em;
+      -webkit-border-radius: 100px;
+      -moz-border-radius: 100px;
+      border-radius: 100px;
+          
+      }
 
         input {
       font-family: "Helvetica Neue", "Cinzel", Arial, sans-serif;
@@ -114,7 +214,7 @@
       width:60px;
       font-weight: bold;
       text-align: center;
-      min-height:48px;
+      min-height:30px;
       display:block;
       cursor:default;
 
@@ -122,12 +222,14 @@
 
       outline: none;
 
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
       
-      -webkit-border-radius:5px;
-      -moz-border-radius:5px;
-      -o-border-radius:5px;
-      -ms-border-radius:5px;
-      border-radius:5px;
+      -webkit-touch-callout: none;
+      -khtml-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
 
         }
 
@@ -137,10 +239,11 @@
 
     <script>
 
-
+      var selected;
       var stage;
       var loading;
-      var filesloaded;
+      var topMostCard;
+      var filesloaded=0;
       var border;
       ///coding variables
       var jj=0,bb=0,maxNumberr=5;
@@ -159,6 +262,7 @@
       var maxNumber=5;
       var num_of_cards=1;
       var inContainerr= new Array();
+      var logo;
 
 
       var cartDiv= new Array();
@@ -171,11 +275,29 @@
       var incrementBox;
       var incrementBoxDOM;
       var limit=1;
+      var onkeychange;
       var bitmapArray = new Array();
       ///jguery of the setup popup-dialog
+      var z1,z2;
       $("#myDialog").dialog({
         modal: true,
         autoOpen: false,
+        resizable: false,
+        width:310,
+        height:470,
+         zIndex: 200000000,
+        buttons: {
+          "OK" : function() {
+
+            get_all();
+          $( this ).dialog( "close" );
+
+        },
+        
+        Close : function() {
+          $( this ).dialog( "close" );
+        }
+      },
         show: {
         effect: "blind",
         duration: 1000
@@ -228,10 +350,15 @@
 ///////reset popup dialog
      $("#resetDialog").dialog({
       resizable: false,
-      height:300,
+      width:400,
+      height:200,
       modal: true,
       buttons: {
-        "Reset The Settings": function() {
+        "Yes": function() {
+          j=0;
+          b=0;
+          document.getElementById("cardValues").checked=false;
+          maxNumber=5;
           handleComplete();
           $( this ).dialog( "close" );
 
@@ -255,6 +382,9 @@
       $("#reset").button().click(function() {
       $("#resetDialog").dialog("open");
     });
+      ////
+
+   
 
       
       //var 1 =0;
@@ -285,7 +415,7 @@
             jj = e.target.value;
             console.log("List item "+jj+" was clicked!");
         });
-        document.getElementById("card_change").addEventListener("click",function(e) {
+        document.getElementById("select-2").addEventListener("click",function(e) {
             bb = e.target.value;
            if(bb!='11'){
 
@@ -295,6 +425,8 @@
         document.getElementById('txt1').style.backgroundColor="grey";
 
         document.getElementById('txt2').style.backgroundColor="grey";
+         document.getElementById('txt1').style.width="60px";
+        document.getElementById('txt2').style.width="60px";
         }
             console.log("List item "+bb+" was clicked!");
         });
@@ -326,22 +458,28 @@
         document.getElementById('txt1').style.backgroundColor="grey";
 
         document.getElementById('txt2').style.backgroundColor="grey";
+        document.getElementById('txt1').style.width="60px";
+        document.getElementById('txt2').style.width="60px";
+        ////hidecard checkbox
+        
         //console.log(maxNumber);
         num_of_cards=inContainerr.length+1;
         set_bitmap();
         get_stack(num_of_cards);
 
         }
+        
+        
 
 
 
       //////color selector
-      var odd=["1","1","3","5","7","9","11","13","15","17","19","21","23","25","27","29","31","33","35","37","39"];
-      var even=["1","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38"];
+      var odd=["1","1","3","5","7","9","11","13","15","17","19","21","23","25","27","29","31","33","35","37","39","41","43","45","47","49","51","53","55","57","59","61","63","65","67","69","71","73","75","77","79","81"];
+      var even=["1","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","44","46","48","50","52","54","56","58","60","62","64","66","68","70","72","74","76","78","80"];
       var triangles=["1","3","6","10","15","21","28","36","45","55","66","78","91","105","120","136","153","171","190","210","231","253","276","300","325","351","378","406","435","465","496","528","561","595","630","666","703","741","780","820"];
       var prime=["2","3","5","7","11","13","17","19","23","29","31","37","41","43","47","53","59","61","67","71","73","79","83","89","97","101","103","107","109","113","127","131","137","139","149","151","157","163","167","173"];
       var roman=["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX"];
-      var die=["images/1_dot.png"];
+      
 
       
       ///color selector- function
@@ -559,10 +697,10 @@
                       for(var i=num_of_cards,m=1;i<100;i++) { 
                             if((container[i]!=undefined)&&(container[i].inContainer==false)){
                               
-                          document.getElementById(i).style.background = "url(images/"+m+"_dot.png) no-repeat center center";
+                          document.getElementById(i).style.background = "url(images/"+m+"-heart.png) no-repeat center center";
                           
                           document.getElementById(i).value = "";
-                          if(m<6)
+                          if(m<9)
                             m++;
                            else 
                             m=1;
@@ -612,9 +750,12 @@
                         */
                         document.getElementById('txt1').disabled = false;
                         document.getElementById('txt2').disabled = false;
-                        document.getElementById('txt1').style.backgroundColor="blue";
+                        document.getElementById('txt1').style.backgroundColor="#66CCCC";
+                        
 
-                        document.getElementById('txt2').style.backgroundColor="blue";
+                        document.getElementById('txt2').style.backgroundColor="#66CCCC";
+                        document.getElementById('txt1').style.width="180px";
+                        document.getElementById('txt2').style.width="180px";
                         sum();
                         
 
@@ -644,14 +785,14 @@
       var normal = new Array();
       
         ///
-      var down;
+      var down = new Array();
       var flip_normal = new Array();
       
         ///
-      var flip_down;
+      var flip_down = new Array();
       var button_normal = new Array();
       
-      var button_down;
+      var button_down = new Array;
       var recycleBin_norm;
       var recycleBin_over;
       //buttons//
@@ -678,9 +819,10 @@
             
             
 
-            queue.loadFile({id:"loading",src:"images/loading.PNG"});
+            queue.loadFile({id:"loading1",src:"images/loading.png"});
             queue.loadFile({id:"recycleBin_norm",src:"images/01_wastebin_norm.png"});
             queue.loadFile({id:"recycleBin_over",src:"images/01_wastebin_over.png"});
+            queue.loadFile({id:"logo",src:"images/logo.png"});
 
 
             for(var i=0;i<=6;i++){
@@ -694,13 +836,6 @@
             }
 
 
-            queue.loadFile({id:"button",src:"images/button.PNG"});
-            queue.loadFile({id:"button1",src:"images/button1.png"});
-            queue.loadFile({id:"button2",src:"images/button2.png"});
-
-            queue.loadFile({id:"reset_button",src:"images/reset_button.PNG"});
-            queue.loadFile({id:"instruction_button",src:"images/instruction_button.png"});
-            queue.loadFile({id:"setup_button",src:"images/setup_button.png"});
 
             //////DOM
 
@@ -723,53 +858,15 @@
 
                   createjs.Touch.enable(stage);
                   //TweenLite.ticker.addEventListener("tick", stage.update, stage);
-                  createjs.Ticker.setInterval(5);
+                  createjs.Ticker.setInterval(1);
                   createjs.Ticker.addEventListener("tick", tick);
-                  stage.autoClear = true;
+                  //stage.autoClear = true;
                   stage.snapPixelsEnabled=true;
                   
                    
 
                   stage.addEventListener("click", stagePressHandler);
-                  ///DOM
-                  for(var i =1;i<3;i++){
-                        labelDiv[i]=document.createElement("div");
-                        }
-                        ////botton
-                        labelDiv[4]=document.createElement("Button");
-                        labelDiv[4].innerHTML = 'click me';
-                        labelDiv[4].onclick = function(){
-                          //var color =prompt("color","green");
-                          var label =prompt("label","odd");
-                          
-                          
-                        };
-                       /* document.body.appendChild(labelDiv[4]);
-
-                        document.body.appendChild(labelDiv[1]);
-                       // document.body.appendChild(labelDiv[i]);
-                        labelDiv[1].id = "labeDiv"+1;
-                        document.getElementById(labelDiv[1].id).innerHTML="<input type=\"text\" id="+1+" size=\"6\" maxlength=\"5\" ></input>";
-                        document.body.appendChild(labelDiv[2]);
-                       // document.body.appendChild(labelDiv[i]);
-                        labelDiv[2].id = "labeDiv"+2;
-                        document.getElementById(labelDiv[2].id).innerHTML="<input type=\"text\" id="+2+" size=\"6\" maxlength=\"5\" ></input>";
-                        
-
-
-                        //document.getElementById(i).value=getCardType(1);
-                        firstBox = document.getElementById(labelDiv[1].id);
-                        incrementBox = document.getElementById(labelDiv[2].id);
-                        firstBoxDOM = new createjs.DOMElement(firstBox);
-                        incrementBoxDOM = new createjs.DOMElement(incrementBox);
-                        firstBoxDOM.x=20;
-                        firstBoxDOM.y=100;
-
-                        incrementBoxDOM.x=100;
-                        incrementBoxDOM.y=100;
-
-                        stage.addChild(firstBoxDOM,incrementBoxDOM);
-                        */
+                  ///loading bar
 
             ////////////////////////////handle file load function ////     
 
@@ -778,14 +875,33 @@
             filesloaded++;
                
             if(filesloaded==1){
-                loading= new createjs.Bitmap(queue.getResult("loading"));
+                loading= new createjs.Bitmap(queue.getResult("loading1"));
                 stage.addChild(loading);   
+                stage.update();
+                console.log("hello");
+                document.getElementById('reset').disabled=true;
+                document.getElementById('myButton').disabled=true;
+                document.getElementById('help').disabled=true;
+
+            document.getElementById('showAll').style.visibility="hidden";
+            document.getElementById("hideAll").style.visibility="hidden";
+            document.getElementById("clearAll").style.visibility="hidden";
+
+                console.log("inside the if condition of the handle file load");
                 }   
+                
             }
 
            //////////////////handle complete function ////     
             function handleComplete() {
             //////console.log('handle complete');
+            document.getElementById('reset').disabled=false;
+            document.getElementById('myButton').disabled=false;
+            document.getElementById('help').disabled=false;
+
+            document.getElementById('showAll').style.visibility="visible";
+            document.getElementById("hideAll").style.visibility="visible";
+            document.getElementById("clearAll").style.visibility="visible";
             stage.removeChild(loading);
 
 
@@ -794,19 +910,11 @@
             
             
 
-            down = new createjs.Bitmap(queue.getResult("down"+j));
-            button = new createjs.Bitmap(queue.getResult("button"));
-            button1 = new createjs.Bitmap(queue.getResult("button1"));
-            button2 = new createjs.Bitmap(queue.getResult("button2"));
-
-            flip_down = new createjs.Bitmap(queue.getResult("flip_down"+j));
             
-            button_down = new createjs.Bitmap(queue.getResult("button_down"+j));
+            
             recycleBin_norm = new createjs.Bitmap(queue.getResult("recycleBin_norm"));
             recycleBin_over = new createjs.Bitmap(queue.getResult("recycleBin_over"));
-            reset_button = new createjs.Bitmap(queue.getResult("reset_button"));
-            instruction_button = new createjs.Bitmap(queue.getResult("instruction_button"));
-            setup_button = new createjs.Bitmap(queue.getResult("setup_button"));
+            logo = new createjs.Bitmap(queue.getResult("logo"));
 
 
 
@@ -849,6 +957,11 @@
             flip_normal[i] = new createjs.Bitmap(queue.getResult("flip_normal"+j));
             button_normal[i] = new createjs.Bitmap(queue.getResult("button_normal"+j));
 
+            button_down[i] = new createjs.Bitmap(queue.getResult("button_down"+j));
+            down[i] = new createjs.Bitmap(queue.getResult("down"+j));
+
+            flip_down[i] = new createjs.Bitmap(queue.getResult("flip_down"+j));
+
             ////text////
            /* cardNumber[i] = new createjs.Text("","40px Verdana bold","black");
                   ///ardNumber[i].lineWidth = 500;
@@ -860,7 +973,12 @@
                   ////*/
                   button_normal[i].x=56;
                   button_normal[i].y=83;
+                  ////
+                  button_down[i].x=56;
+                  button_down[i].y=83;
+                  ///
                   button_normal[i].name=m;
+
                   //console.log("button_normal[i].name "+name);
 
 
@@ -876,14 +994,20 @@
             cartDiv[i].id = "EnterQuestionDiv"+i;
             document.getElementById(cartDiv[i].id).innerHTML="<input type=\"text\" id="+i+" size=\"6\" maxlength="+5+"></input>";
 
-              
-              document.getElementById(i).onkeypress=myfunction;/// check the syntax
+
+             /// check the syntax
+              //document.getElementById(i).disabled=true;
+
               
             
             
             //getCardType(6);
 
-            //document.getElementById(i).value=getCardType(1);
+
+            
+
+           
+
 
 
             
@@ -891,33 +1015,99 @@
 
              
             enterquestion[i] = document.getElementById(cartDiv[i].id);
+            enterquestion[i].name=i;
             enterquestionDom[i] = new createjs.DOMElement(enterquestion[i]);
-            enterquestionDom[i].x = 271;
-            enterquestionDom[i].y = 80;
+            enterquestionDom[i].x = 187.5;
+            enterquestionDom[i].y = 7;
             enterquestionDom[i].text=""+i; 
+
+            enterquestion[i].addEventListener("click",function(evt){
+
+                console.log("heello i m text field number"+evt.currentTarget.name);
+                evt.currentTarget.onkeychange=true;
+            });
+
+             enterquestion[i].addEventListener("keypress",function(evt){
+
+
+
+               x=document.getElementById(evt.currentTarget.name);
+
+              initialSize=6-(x.value.length);
+              //initialSize=initialSize<=1?22:20;
+              if(initialSize==2)
+                initialSize=14;
+              else if(initialSize==3)
+                initialSize=18;
+              else if(initialSize==4)
+                initialSize=25;
+              else if(initialSize==5)
+                initialSize=40;
+              else if(initialSize==6)
+                initialSize=45;
+              else
+                initialSize=14;
+
+              x.style.fontSize = initialSize + "px";
+            
+
+            });
+
+
+
           //  console.log(enterquestionDom[i].text);
             
             //enterquestionDom[i].text = "hassan";
             //stage.addChild(enterquestionDom);
             //normal.addChild(enterquestionDom[i])
+
+
+            container[i].addChild(flip_normal[i],normal[i],enterquestionDom[i],button_normal[i],button_down[i],down[i],flip_down[i]);
+            
+            if(container[i-1]!=undefined)
+            enterquestionDom[i].visible=false;
+
+            down[i].visible=false;
+            button_down[i].visible=false;
+            flip_down[i].visible=false;
             
 
-            container[i].addChild(flip_normal[i],normal[i],enterquestionDom[i],button_normal[i]);
 
-            
+            document.getElementById(i).addEventListener("click",function(evt){
+             
+                console.log(evt.target.name);
+                //document.getElementById(temp).focus();
+                //document.getElementById(temp).select();
+
+            });
 
             
             container[i].addEventListener("pressmove",function(evt){
+              
+              
+             if((container[evt.currentTarget.name+1]!=undefined)&&(document.getElementById("cardValues").checked==false))
+              enterquestionDom[evt.currentTarget.name+1].visible=true;
+             else if(container[evt.currentTarget.name+1]==undefined)
+              stage.removeChild(stack);
+          
+
 
                 evt.currentTarget.x = (evt.stageX-40);
                 evt.currentTarget.y = (evt.stageY-35);
-                if(evt.currentTarget.name==maxNumber-1){
-                    stage.removeChild(stack);
-                }
+                
 
                 });
-            button_normal[i].addEventListener("click",function(evt){
-              
+            ////roll over, roll out functions
+            button_normal[i].addEventListener("mousedown",function(evt){
+
+
+              button_down[evt.currentTarget.name].visible=true;
+            });
+          
+
+            //////
+            button_normal[i].addEventListener("pressup",function(evt){
+              button_down[evt.currentTarget.name].visible=false;
                 container[evt.currentTarget.name].swapChildrenAt(0,2);
                 if(enterquestionDom[evt.currentTarget.name].visible==true)
                 enterquestionDom[evt.currentTarget.name].visible=false;
@@ -926,6 +1116,8 @@
                 
               
             });
+
+            
             
              container[i].addEventListener("pressup",function(evt){
 
@@ -935,6 +1127,7 @@
         
                 if(collision){
                 document.getElementById(evt.currentTarget.name).style.visibility="hidden";
+                //document.getElementById(evt.currentTarget.name).style.zIndex=1;
                 console.log("collision");
                 stage.removeChild(evt.currentTarget);
 
@@ -984,15 +1177,24 @@
                    
              });
              container[i].addEventListener("click",function(evt){
+              var temp=evt.currentTarget.name;
+
+              //document.getElementById(evt.currentTarget.name).onclick=selectall(evt.currentTarget.name);
+              
+
+                
                 if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined)
                 console.log(evt.currentTarget.name);
                 else
                 console.log("child not exits");
-             });
 
+             });
+            // document.getElementById(evt.currentTarget.name).style
+             
+              
             }
           
-            button.addEventListener("click",function(evt){
+            $("#hideAll").button().click(function() {
                // hide all values
                 for(var i=1;i<100;i++){
                   if(container[i]!=undefined){
@@ -1009,7 +1211,8 @@
                 
                 
             });
-            button1.addEventListener("click",function(evt){
+            
+            $("#showAll").button().click(function() {
                 //show all values
                 for(var i=1;i<100;i++){
                   if(container[i]!=undefined){
@@ -1025,8 +1228,16 @@
                 }
 
             });
-            button2.addEventListener("click",function(evt){
-                //clear all values
+
+        
+
+
+
+            $("#clearAll").button().click(function() {
+     
+    
+        //clear all values
+
                   for(var i=1;i<100;i++){
                     if(container[i]!=undefined){
                     
@@ -1041,9 +1252,19 @@
                 
                   
             });
-
+           
             }
-            function myfunction(){
+            
+            //////
+            function selectall(temp){
+                //container[temp].selected=true;
+                console.log(temp);
+                document.getElementById(temp).focus();
+                document.getElementById(temp).select();
+              }
+
+            ////////resizing the font size of text field
+          /*  function myfunction(){
               for(var i=1;i<=100;i++){
                 if(container[i]!=undefined){
 
@@ -1055,24 +1276,17 @@
             }
           }
           }
+          */
 
 
             function viewMain(){
                 stage.removeAllChildren();
-                
+               // logo.style.zIndex=100000000;
                 recycleBin_norm.x=872;
                 recycleBin_norm.y=461;
-                button.x= 545;
-                button1.x= 375;
-                button2.x= 715;
-                button.y=button1.y=button2.y=526;
-                instruction_button.x=492.5;
-                instruction_button.y=580;
-                setup_button.x=364.5;
-                reset_button.x=543.5;
-                reset_button.y=580;
-                setup_button.y=580;
-                stage.addChild(recycleBin_norm,mainContainer,button,button1,button2);
+                logo.x=800;
+                logo.y=-5;
+                stage.addChild(recycleBin_norm,mainContainer,logo);
                 get_stack(num_of_cards);
                 
                 stage.update();
@@ -1083,9 +1297,10 @@
                // console.log(num_of_cards);
                 stack.x=20;
                 stack.y=450;
-                //stage.addChild(stack);
+                stage.addChild(stack);
                  for(var i=maxNumber+(num_of_cards-1);i>=num_of_cards;i--){
                   //when num of cards =1 , 4+1-1=4 1,2,3// i=3 , 4+3-1=6, 3,4,5,; i =5 8 ,5 6 7 ---!
+
                   //if(bitmapArray[i]==undefined){
                     container[i].x=20;
                     container[i].y=450;
@@ -1097,6 +1312,20 @@
                     stage.update();
                   }
                  getCardType(b);
+                  if(document.getElementById("cardValues").checked){
+                       for(var i=1;i<100;i++){
+                              if((container[i]!=undefined)&&(container[i].inContainer==false)){
+                                
+                                container[i].swapChildrenAt(0,2);
+                                //document.getElementById(i).style.visibility="hidden";
+                                enterquestionDom[i].visible=false;
+
+                                }
+                              
+                                
+                            }
+            console.log("hello checked");
+                    }
 
 
                 
@@ -1120,7 +1349,8 @@
         }
 
 
-         
+           
+    
     </script>
 
      
