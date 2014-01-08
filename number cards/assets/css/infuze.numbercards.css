@@ -1,0 +1,67 @@
+.ui-body-c, .ui-overlay-c {
+     background: #fff;
+ }
+
+/*.ui-btn { height: 200px !important; font-size: 48px !important; }*/
+/*.ui-btn { width: 120px;}*/
+
+#shapeContainer1, #shapeContainer2{
+    height: 490px;
+    width: 510px;
+    /*border: 2px solid green;*/
+    /*display:none;*/
+    display:table-cell;
+}
+
+#btnPlay1.ui-btn, #btnPlay2.ui-btn{
+    width: 120px;
+}
+
+.ui-icon-custom-pause {
+    background-image: url("../images/iconPause_18.png");
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    .ui-icon-custom-pause {
+        background-image: url("../images/iconPause_36.png");
+        background-size: 18px 18px;
+    }
+
+    /*..more HD image rules go here...*/
+}
+
+
+.controls {
+	width: 490px;
+	/*height: 60px;*/
+	position:relative;
+    margin: 0 auto;
+    padding: 0 0 0 0px;
+}
+
+.controls #btnPlay {
+	position:relative;
+	z-index:2;
+}
+.controls form {
+	width:340px;
+	display: inline-block;
+	position:relative;
+	z-index:1;
+
+
+}
+
+.controls .ui-slider {
+	position:absolute;
+	top:-24px;
+	left:-45px;
+	width:380px;
+	height: 30px;
+	margin: .5em 0;
+	zoom: 1;
+}
+
+.controls .ui-slider-input {
+    display : none !important;
+}
