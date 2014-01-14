@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>Number cards - index.html</title>
+
+    <script src="assets/lib/jquery/js/jquery-1.10.2.min.js"></script>
+    <script src="assets/lib/jquery/js/jquery-ui.js"></script>
+    <script src="assets/lib/jquery/js/jquery.mobile-1.3.2.min.js"></script>
+    <script src="assets/lib/jquery/js/jquery.colorPicker.min.js"></script>
+    <script src="assets/lib/createjs/preloadjs-0.4.1.min.js"></script>
+    <script src="assets/lib/createjs/createjs.min.js"></script>
+    <script src="assets/lib/TweenMax.min.js"></script>
+    <script type="text/javascript" src="assets/lib/ndgmr.Collision.js"></script>
+    
+    <link rel="stylesheet" href="assets/lib/jquery/css/jquery.mobile-1.3.2.min.css" type="text/css"/>
+    <link rel="stylesheet" href="assets/lib/jquery/css/ThemeForTools.css"/>
+    <link rel="stylesheet" href="assets/lib/jquery/css/jquery.mobile.structure-1.3.2.min.css"/>
+    <link rel="stylesheet" href="assets/css/colorPicker.css" type="text/css"/>
+
+
+    <link rel="stylesheet" href="assets/css/infuze.styles.css">
+    <link rel="stylesheet" href="assets/css/infuze.numbercards.css" type="text/css"/>
+    <link rel="stylesheet" href="assets/css/infuze.progress.css" type="text/css"/>
+
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/loader.js"></script>
+    <script src="assets/js/footerNav.js"></script>
+
+    <!--tool specific js-->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/controlPanel.js"></script>
+    <script src="assets/js/numbercards.js"></script>
+
+    <script type="text/javascript">
+
+        // create a namespace for the application
+        var IMT_Numbercards = IMT_Numbercards || {};
+        $(document).ready(function () {
+            var app; // may need to be inside button click event to allow tablet sound control
+            app = new IMT_Numbercards.App(IMT_Numbercards, $);
+        });
+
+    </script>
+                <style>
+      
+
+           
+    canvas {
+      
+         width: 985px;
+         height: 624px;  
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        background-color: white;
+        }
+          input {
+      font-family: "Helvetica Neue", "Cinzel", Arial, sans-serif;
+      border:0px solid #ccc;
+      background-color:rgba(0,0,0,0);
+
+      font-size:40px;
+      width:60px;
+      font-weight: bold;
+      text-align: center;
+      min-height:30px;
+      display:block;
+      cursor:default;
+      position: relative;
+
+
+      outline: none;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      
+      -webkit-touch-callout: none;
+      -khtml-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toolContainer">
+
+        <div class="reveal-modal-bg"></div>
+
+        <!--Used a a constraint for drag items and popups, such as setup window-->
+       
+
+        <div id="dragContainer">
+ <canvas id="myCanvas"></canvas>
+
+           
+            <div id="gameContainer">
+ 
+            </div>
+
+        </div>
+
+        <!--Control panel container. controlPanel.html is injected in here with jQuery-->
+        <div id="cPanelContainer">
+            <div id="cPanelContainerContent">
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $(".numCard-divInput").addClass('ui-disabled');
+                        $(".numCard-divInput").prop("disabled", true);
+
+                        $('#select-2').change(function () {
+                            if ($('#select-2').val() != "Custom") {
+                                $(".numCard-divInput").addClass('ui-disabled');
+                                $(".numCard-divInput").prop("disabled", true);
+                            } else {
+                                $(".numCard-divInput").removeClass('ui-disabled');
+                                $(".numCard-divInput").prop("disabled", false);
+                            }
+                        });
+                        $("input[type=text]").on('keyup', function () {
+                            var $that = $(this);
+                            var maxlength = $that.attr('max');
+
+                            var numbers = /^[\d\-\.]+$/;
+
+                            if ($(this).val().match(numbers)) {
+                                $that.val($that.val().substr(0, maxlength));
+                                //console.log("match")
+                            } else {
+                                $that.val('');
+                                //console.log("no match")
+                            }
+                        });
+
+                        $('#color3').colorPicker({pickerDefault: "ff0000", colors: ["#19D4F0", " #19F04B", "##C0C0C0", "#F09A19", "#F019E6", "#F01927", "#F0F019"], transparency: true, showHexField: false});
+                    });
+
+
+                </script>
+
+                <div class="conPanel-frame op8">
+                    <h1>Set up</h1>
+
+                    <div class="conPanel-dragger"></div>
+                    <div class="conPanel-content">
+
+                        <div data-role="content" data-theme="a">
+
+                            <div>
+                                <div class="numCard-dropDwn-panel">
+                                    <div data-role="fieldcontain" class="numCard-dropDwn">
+                                        <label for="select-1">Number of cards:</label>
+                                        <select name="select-native-fc" id="select-1" data-mini="true">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20" selected="selected">20</option>
+                                            <option value="40">40</option>
+                                        </select>
+                                    </div>
+
+                                    <div data-role="fieldcontain">
+                                        <label for="select-2">Type of numbers:</label>
+                                        <select name="select-native-fc" id="select-2" data-mini="true">
+                                            <option value="Serial">Serial</option>
+                                            <option value="Odds">Odds</option>
+                                            <option value="Evens">Evens</option>
+                                            <option value="Triangles">Triangles</option>
+                                            <option value="Squares">Squares</option>
+                                            <option value="Primes">Primes</option>
+                                            <option value="Roman_Numerals">Roman Numerals</option>
+                                            <option value="Random_0_99">Random (0-99)</option>
+                                            <option value="Random_0_9">Random (0-9)</option>
+                                            <option value="1_6_dots">1-6 dots</option>
+                                            <option value="1_9_dots">1-9 dots</option>
+                                            <option value="Custom">Custom</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <h2 class="customH2">Custom number settings</h2>
+
+                                <div class="numCard-panel">
+
+                                    <div class="numCard-divLabel">
+                                        <label class="numCard-Label">First value</label>
+                                    </div>
+                                    <div class="numCard-divInput">
+                                        <input id="firstVal" type="text" name="number" pattern="[0-9]*" min="1" max="4" class="number-pattern" value="10" onkeyup="sum();">
+                                    </div>
+                                </div>
+                                <div class="numCard-panel">
+                                    <div class="numCard-divLabel">
+                                        <label class="numCard-Label">Increment</label>
+                                    </div>
+                                    <div class="numCard-divInput">
+                                        <input id="incrementVal" type="text" name="number" pattern="[0-9]*" min="1" max="3" class="number-pattern" value="10" onkeyup="sum();">
+                                    </div>
+                                </div>
+
+                                <div class="colorPicker-panel">
+                                    <div class="colorPicker-txt">
+                                        <p>Card colour:</p>
+                                    </div>
+                                    <div class="colorPicker">
+                                        <input id="color3" type="" name="color3" value="#fff"/>
+                                    </div>
+                                </div>
+
+                                <div class="numCard-cardValues">
+                                    <label><input type="checkbox" name="checkbox-0" data-mini="true" id="cardValues">Card values hidden as default</label>
+                                </div>
+
+                                <script>
+                                    $("#cardValues").attr("checked", true);
+                                </script>
+
+
+                                <div class="okCancel-button-container">
+                                    <a href="#" id='btnOK' data-role="button" data-inline="true" data-mini="true">OK</a>
+                                    <a href="#" id='btnCancel' data-role="button" data-inline="true" data-mini="true">Cancel</a>
+                                </div>
+
+                                <!--Test link for opening error dialog-->
+                                <a href="#" id='openDialog' data-role="" data-inline="true" data-mini="true">Activate dialog test link</a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="conPanel-shadow"></div>-->
+            </div>
+        </div>
+
+
+        <div id="cHelpContainer">
+            <div class="conPanel-frame op3">
+                <h1>Help</h1>
+
+                <div class="conPanel-dragger"></div>
+                <div class="conPanel-content">
+                    <div data-role="content" data-theme="a">
+                        <p>Help content</p>
+
+                        <div class="okCancel-button-container">
+                            <a href="#" id='btnClose' data-role="button" data-inline="true" data-mini="true">Close</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Bottom navigation containg Setup, Info & Reset buttons-->
+        <div id="footerNav">
+            <div class="footer-bar-tools">
+                <div class="footer-btns-center-tools">
+                    <div id="btn1" class="footer-btn-tools">Set up</div>
+                    <div id="btn2" class="footer-btn-tools infoBtn">&nbsp;</div>
+                    <div id="btn3" class="footer-btn-tools">Reset</div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!--Popup dialogue opened when user clicks reset-->
+        <div data-role="popup" id="popupResetDialog" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="width:400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="a" class="ui-corner-top">
+                <h1>Reset</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <!--<h3 class="ui-title">Reset</h3>-->
+                <div class="dialog-content"><p>Are you sure you want to reset</p></div>
+                <a href="#" id="popupCancel" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                <a href="#" id="popupOK" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Yes</a>
+            </div>
+        </div>
+
+
+        <!--Popup dialogue opened when there is an incorrect input in the setup control panel-->
+        <div data-role="popup" id="popupErrorMessage" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="width:400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="a" class="ui-corner-top">
+                <h1 id="dialogTitleBar">ERROR</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <!--<h3 id="dialogTitle" class="ui-title">ERROR</h3>-->
+                <div class="dialog-content"><p id="dialogMessage">There has been an error.</p></div>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">OK</a>
+            </div>
+        </div>
+
+
+        <!--Preloader used when assets need to be loaded-->
+        <div id="preloader">
+            <div id="modalProgressBar" class="preloader-modal">
+                <p>Loading assets...</p>
+
+                <div class="meter">
+                    <span style="width: 1%"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<script>   
+
+/*
+             //////////////////handle complete function ////     
+            function handleComplete() {
+            //////console.log('handle complete');
+            document.getElementById('reset').disabled=false;
+            document.getElementById('myButton').disabled=false;
+            document.getElementById('help').disabled=false;
+
+            document.getElementById('showAll').style.visibility="visible";
+            document.getElementById("hideAll").style.visibility="visible";
+            document.getElementById("clearAll").style.visibility="visible";
+            stage.removeChild(loading);
+
+
+            //load screen images to bitmaps and store the bitmaps in vairables
+           
+            
+            
+
+            
+            
+            recycleBin_norm = new createjs.Bitmap(queue.getResult("recycleBin_norm"));
+            recycleBin_over = new createjs.Bitmap(queue.getResult("recycleBin_over"));
+            logo = new createjs.Bitmap(queue.getResult("logo"));
+
+
+
+            ///// rectangle with 1 px blue border////
+
+
+            border = new createjs.Shape();
+            border.graphics.beginStroke("grey");
+            border.graphics.setStrokeStyle(2);
+            border.snapToPixel = true;
+            //border.graphics.beginFill("blue");
+            border.graphics.drawRect(20, 40, 945, 400);
+            border.setBounds(20,40,945,400);
+            border.x = stage.width / 2 - 200;
+            border.y = stage.height / 2 - 150;
+            mainContainer = new createjs.Container();
+            mainContainer.addChild(border);
+           
+            set_bitmap();
+          
+           
+
+
+            
+            viewMain();
+            
+
+            }
+
+          ///function views///
+            function set_bitmap(){
+               stack = new createjs.Bitmap(queue.getResult("stack"+j));
+                  for(i=num_of_cards,m=num_of_cards;i<(maxNumber+1)+(num_of_cards-1);m++,i++){
+                 //   console.log("i="+i);
+            normal[i] = new createjs.Bitmap(queue.getResult("normal"+j));
+            normal[i].name="normal"+i;
+            //console.log(normal[i].name);
+            flip_normal[i] = new createjs.Bitmap(queue.getResult("flip_normal"+j));
+            button_normal[i] = new createjs.Bitmap(queue.getResult("button_normal"+j));
+
+            button_down[i] = new createjs.Bitmap(queue.getResult("button_down"+j));
+            down[i] = new createjs.Bitmap(queue.getResult("down"+j));
+
+            flip_down[i] = new createjs.Bitmap(queue.getResult("flip_down"+j));
+
+                  button_normal[i].x=56;
+                  button_normal[i].y=83;
+                  ////
+                  button_down[i].x=56;
+                  button_down[i].y=83;
+                  ///
+                  button_normal[i].name=m;
+
+                  //console.log("button_normal[i].name "+name);
+
+
+
+                  
+            ////container////
+            container[i] = new createjs.Container();
+            container[i].name=i;
+          
+
+            cartDiv[i]=document.createElement("div");
+            document.body.appendChild(cartDiv[i]);
+            cartDiv[i].id = "EnterQuestionDiv"+i;
+            document.getElementById(cartDiv[i].id).innerHTML="<input type=\"text\" id="+i+" size=\"6\" maxlength="+5+"></input>";
+
+
+             /// check the syntax
+              //document.getElementById(i).disabled=true;
+
+              
+            
+            
+            //getCardType(6);
+
+
+            
+
+           
+
+
+
+            
+
+
+             
+            enterquestion[i] = document.getElementById(cartDiv[i].id);
+            enterquestion[i].name=i;
+            enterquestionDom[i] = new createjs.DOMElement(enterquestion[i]);
+            enterquestionDom[i].x = 187.5;
+            enterquestionDom[i].y = 7;
+            enterquestionDom[i].text=""+i; 
+
+            enterquestion[i].addEventListener("click",function(evt){
+
+                console.log("heello i m text field number"+evt.currentTarget.name);
+                evt.currentTarget.onkeychange=true;
+            });
+
+             enterquestion[i].addEventListener("keypress",function(evt){
+
+
+
+               x=document.getElementById(evt.currentTarget.name);
+
+              initialSize=6-(x.value.length);
+              //initialSize=initialSize<=1?22:20;
+              if(initialSize==2)
+                initialSize=14;
+              else if(initialSize==3)
+                initialSize=18;
+              else if(initialSize==4)
+                initialSize=25;
+              else if(initialSize==5)
+                initialSize=40;
+              else if(initialSize==6)
+                initialSize=45;
+              else
+                initialSize=14;
+
+              x.style.fontSize = initialSize + "px";
+            
+
+            });
+
+
+
+          //  console.log(enterquestionDom[i].text);
+            
+            //enterquestionDom[i].text = "hassan";
+            //stage.addChild(enterquestionDom);
+            //normal.addChild(enterquestionDom[i])
+
+
+            container[i].addChild(flip_normal[i],normal[i],enterquestionDom[i],button_normal[i],button_down[i],down[i],flip_down[i]);
+            
+            if(container[i-1]!=undefined)
+            enterquestionDom[i].visible=false;
+
+            down[i].visible=false;
+            button_down[i].visible=false;
+            flip_down[i].visible=false;
+            
+
+
+            document.getElementById(i).addEventListener("click",function(evt){
+             
+                console.log(evt.target.name);
+                //document.getElementById(temp).focus();
+                //document.getElementById(temp).select();
+
+            });
+
+            
+            container[i].addEventListener("pressmove",function(evt){
+              
+              
+             if((container[evt.currentTarget.name+1]!=undefined)&&(document.getElementById("cardValues").checked==false))
+              enterquestionDom[evt.currentTarget.name+1].visible=true;
+             else if(container[evt.currentTarget.name+1]==undefined)
+              stage.removeChild(stack);
+          
+
+
+                evt.currentTarget.x = (evt.stageX-40);
+                evt.currentTarget.y = (evt.stageY-35);
+                
+
+                });
+            ////roll over, roll out functions
+            button_normal[i].addEventListener("mousedown",function(evt){
+
+
+              button_down[evt.currentTarget.name].visible=true;
+            });
+          
+
+            //////
+            button_normal[i].addEventListener("pressup",function(evt){
+              button_down[evt.currentTarget.name].visible=false;
+                container[evt.currentTarget.name].swapChildrenAt(0,2);
+                if(enterquestionDom[evt.currentTarget.name].visible==true)
+                enterquestionDom[evt.currentTarget.name].visible=false;
+                else
+                enterquestionDom[evt.currentTarget.name].visible=true;
+                
+              
+            });
+
+            
+            
+             container[i].addEventListener("pressup",function(evt){
+
+                collision = ndgmr.checkRectCollision(evt.target,recycleBin_norm);
+
+
+        
+                if(collision){
+                document.getElementById(evt.currentTarget.name).style.visibility="hidden";
+                //document.getElementById(evt.currentTarget.name).style.zIndex=1;
+                console.log("collision");
+                stage.removeChild(evt.currentTarget);
+
+            }
+              
+                if(((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>40&&evt.currentTarget.y<400))&&(evt.currentTarget.inContainer!=true)){
+                    evt.currentTarget.inContainer=true;
+                    console.log(evt.currentTarget.inContainer);
+
+                    inContainerr.push(evt.currentTarget);
+                   console.log("incontainerr.lenght = "+inContainerr.length);
+                }
+                else if(evt.currentTarget.inContainer==false)
+                    {
+
+                        evt.currentTarget.inContainer=false;
+                       // console.log(evt.currentTarget.inContainer);
+                        TweenMax.to(evt.currentTarget,3,{x:"20",y:"450",ease:Bounce.easeOut});
+
+
+                    }
+                else if(((evt.currentTarget.x>20&&evt.currentTarget.x<945)&&(evt.currentTarget.y>400))&&(evt.currentTarget.inContainer==true)){
+                       // console.log(evt.currentTarget.inContainer);
+                        TweenMax.to(evt.currentTarget,3,{x:"400",y:"200",ease:Bounce.easeOut});
+
+                }
+
+                
+                  
+
+                
+             //console.log(evt.currentTarget.inContainer);
+               
+            
+      
+          
+            
+
+        
+
+                    
+                   
+             });
+             container[i].addEventListener("click",function(evt){
+              var temp=evt.currentTarget.name;
+
+              //document.getElementById(evt.currentTarget.name).onclick=selectall(evt.currentTarget.name);
+              
+
+                
+                if(evt.currentTarget.getChildByName(evt.currentTarget.name)!=undefined)
+                console.log(evt.currentTarget.name);
+                else
+                console.log("child not exits");
+
+             });
+            // document.getElementById(evt.currentTarget.name).style
+             
+              
+            }
+          function selectall(temp){
+                //container[temp].selected=true;
+                console.log(temp);
+                document.getElementById(temp).focus();
+                document.getElementById(temp).select();
+              }
+
+
+            function viewMain(){
+                stage.removeAllChildren();
+               // logo.style.zIndex=100000000;
+                recycleBin_norm.x=872;
+                recycleBin_norm.y=461;
+                logo.x=800;
+                logo.y=-5;
+                stage.addChild(recycleBin_norm,mainContainer,logo);
+                get_stack(num_of_cards);
+                
+                stage.update();
+            }
+
+            function get_stack(num_of_cards){
+               
+               // console.log(num_of_cards);
+                stack.x=20;
+                stack.y=450;
+                stage.addChild(stack);
+                 for(var i=maxNumber+(num_of_cards-1);i>=num_of_cards;i--){
+                  //when num of cards =1 , 4+1-1=4 1,2,3// i=3 , 4+3-1=6, 3,4,5,; i =5 8 ,5 6 7 ---!
+
+                  //if(bitmapArray[i]==undefined){
+                    container[i].x=20;
+                    container[i].y=450;
+                    container[i].inContainer=false;
+                    //bitmapArray[i]=container[i].name;
+                   // console.log(container[i].inContainer);
+
+                    stage.addChild(container[i]);
+                    stage.update();
+                  }
+                 getCardType(b);
+                  if(document.getElementById("cardValues").checked){
+                       for(var i=1;i<100;i++){
+                              if((container[i]!=undefined)&&(container[i].inContainer==false)){
+                                
+                                container[i].swapChildrenAt(0,2);
+                                //document.getElementById(i).style.visibility="hidden";
+                                enterquestionDom[i].visible=false;
+
+                                }
+                              
+                                
+                            }
+            console.log("hello checked");
+                    }
+
+
+                
+             // }
+                
+
+
+            }
+            /////// function event handlers////
+
+            function stagePressHandler(e){
+         //   console.log(e.stageX+" ::: "+e.stageY);
+            }
+
+
+            /////////////////////////ticker/////////////////////////////////////
+        function tick(){
+
+
+        stage.update();
+        }
+
+        
+        */
+
+</script>    
+</body>
+</html>
+
