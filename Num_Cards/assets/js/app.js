@@ -15,7 +15,7 @@
         App.controlPanel = null;
         App.numbercards = null;
         //hassanVariables here//
-        App.stack;
+       // App.stack;
         var selected;
       
       App.loading;
